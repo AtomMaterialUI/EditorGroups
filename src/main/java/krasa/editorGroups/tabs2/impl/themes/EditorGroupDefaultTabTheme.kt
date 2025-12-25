@@ -32,6 +32,7 @@ open class EditorGroupDefaultTabTheme : EditorGroupTabTheme {
   override val underlinedTabBackground: Color
     get() = globalScheme.getAttributes(EditorColors.TAB_SELECTED).backgroundColor
       ?: JBUI.CurrentTheme.EditorTabs.underlinedTabBackground()
+      ?: JBUI.CurrentTheme.EditorTabs.background()
 
   override val underlinedTabForeground: Color
     get() = globalScheme.getAttributes(EditorColors.TAB_SELECTED).foregroundColor
