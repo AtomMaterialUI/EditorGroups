@@ -2,6 +2,13 @@
 
 ## Changelog
 
+## 4.2.0
+
+### Fixes
+
+- Fix wrong colors for the hovered tab in some themes
+- Change defaults: replace current tab, groups and metadata are now on by default
+
 ## 4.1.0
 
 ### Features
