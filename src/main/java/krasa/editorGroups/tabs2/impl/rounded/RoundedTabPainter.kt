@@ -20,7 +20,7 @@ internal open class RoundedTabPainter : EditorGroupsTabPainter {
 
   private val selectedInactiveColors = theme.underlinedTabInactiveBackground to theme.underlinedTabBorderColor
 
-  private val selectedHoveredInactiveColors = theme.hoverBackground to theme.inactiveUnderlineColor
+  private val selectedHoveredInactiveColors = theme.hoverSelectedInactiveBackground to theme.inactiveUnderlineColor
 
   private fun getColors(active: Boolean, selected: Boolean, hovered: Boolean): Pair<Color?, Color?> = when {
     selected -> when {
@@ -127,8 +127,11 @@ internal open class RoundedTabPainter : EditorGroupsTabPainter {
       hovered = hovered
     )
 
-    if (fill != null) {
+    if (fill != null && hovered) {
       // Paint rounded tab
+      g.color = fill
+      g.fill(shape)
+    } else if (fill != null) {
       g.color = ColorUtil.withAlpha(fill, theme.roundTabOpacity.toDouble())
       g.fill(shape)
     }
