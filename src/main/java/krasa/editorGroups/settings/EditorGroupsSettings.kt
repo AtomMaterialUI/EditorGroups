@@ -34,7 +34,7 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     var isShowSize: Boolean by property(true)
 
     // Show group metadata
-    var isShowMeta: Boolean by property(false)
+    var isShowMeta: Boolean by property(true)
 
     // Color tabs of the current group
     var isColorTabs: Boolean by property(false)
@@ -61,7 +61,7 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     var isCompactTabs: Boolean by property(false)
 
     // Split the list in groups
-    var isGroupSwitchGroupAction: Boolean by property(false)
+    var isGroupSwitchGroupAction: Boolean by property(true)
 
     // Show the panel at all
     var isShowPanel: Boolean by property(true)
@@ -73,7 +73,7 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     var isShowToolWindow: Boolean by property(true)
 
     // Reuse the current tab
-    var reuseCurrentTab: Boolean by property(false)
+    var reuseCurrentTab: Boolean by property(true)
 
     // Limit the number of elements in a group
     var groupSizeLimitInt: Int by property(DEFAULT_GROUP_SIZE_LIMIT)
@@ -376,7 +376,7 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     this.isCustomFont = false
     this.isExcludeEditorGroupsFiles = false
     this.isForceSwitch = true
-    this.isGroupSwitchGroupAction = false
+    this.isGroupSwitchGroupAction = true
     this.isHideEmpty = true
     this.isIndexOnlyEditorGroupsFiles = false
     this.isInitializeSynchronously = false
@@ -385,9 +385,11 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     this.isSelectRegexGroup = false
     this.isShowFloatingButton = true
     this.isShowPanel = true
+    this.isShowMeta = true
     this.isShowSize = true
     this.isShowToolWindow = true
     this.isSmallLabels = true
+    this.reuseCurrentTab = true
     this.tabSizeLimit = DEFAULT_TAB_SIZE_LIMIT
     this.tabsPlacement = SwingConstants.TOP
     this.fireChanged()
@@ -495,7 +497,7 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
   """.trimMargin()
 
   interface SettingsNotifier {
-    /** When Config is changed (settings) */
+    /** When Config is changed (settings). */
     fun configChanged(config: EditorGroupsSettings): Unit = Unit
   }
 
