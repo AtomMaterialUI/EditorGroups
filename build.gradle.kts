@@ -6,8 +6,8 @@ import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-fun properties(key: String): String = providers.gradleProperty(key).get()
-fun environment(key: String): Provider<String?> = providers.environmentVariable(key)
+fun properties(key: String) = providers.gradleProperty(key).get()
+fun environment(key: String) = providers.environmentVariable(key)
 
 plugins {
   id("java")

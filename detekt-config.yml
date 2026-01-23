@@ -40,7 +40,7 @@ formatting:
   FunctionName:
     active: true
   FunctionSignature:
-    active: true
+    active: false
     maxLineLength: 140
     indentSize: 2
   Indentation:
