@@ -39,8 +39,6 @@ internal class RegexEditorConfigurable :
     PatternEditableColumnInfo(parent = this, editable = true),
     ScopeEditableColumnInfo(editable = true),
     NotComparingGroupsEditableColumnInfo(parent = this, editable = true),
-    IconColorEditableColumnInfo(parent = this),
-    PriorityColumnInfo(parent = this, editable = true),
   )
 
   init {
