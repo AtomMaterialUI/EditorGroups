@@ -1104,7 +1104,7 @@ class EditorGroupPanel(
       }
 
       // Fetch the actual icon off the UI thread
-      ApplicationManager.getApplication().runWriteAction {
+      ApplicationManager.getApplication().executeOnPooledThread {
         val icon = link.fileIcon
         SwingUtilities.invokeLater { this.icon = icon }
       }

@@ -39,7 +39,6 @@ val pluginGroup: String = properties("pluginGroup")
 val pluginVersion: String = properties("pluginVersion")
 //val pluginDescription: String = properties("pluginDescription")
 val pluginSinceBuild: String = properties("pluginSinceBuild")
-val pluginUntilBuild: String = properties("pluginUntilBuild")
 
 //val pluginCode: String = properties("pluginCode")
 //val pluginReleaseDate: String = properties("pluginReleaseDate")
@@ -112,7 +111,6 @@ intellijPlatform {
 
     ideaVersion {
       sinceBuild = pluginSinceBuild
-      untilBuild = pluginUntilBuild
     }
 
     val changelog = project.changelog // local variable for configuration cache compatibility

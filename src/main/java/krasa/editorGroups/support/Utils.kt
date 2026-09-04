@@ -91,37 +91,44 @@ fun getFileIcon(path: String?, project: Project?): Icon {
  * @return
  */
 fun getFileByPath(path: String, currentFile: VirtualFile?): VirtualFile? {
+  if (ApplicationManager.getApplication().isDispatchThread) {
+    return findFileByPath(path, currentFile, refresh = false)
+  }
+
   try {
     return ApplicationManager.getApplication().executeOnPooledThread<VirtualFile?> {
-      var file: VirtualFile? = null
-
-      when {
-        path.contains(".jar")               -> file = VirtualFileManager.getInstance().findFileByUrl("jar://$path") // NON-NLS
-        OSAgnosticPathUtil.isAbsolute(path) -> file = LocalFileSystem.getInstance().findFileByPath(path)
-        currentFile != null                 -> {
-          val parent = currentFile.parent
-          if (parent != null) {
-            file = parent.findFileByRelativePath(path)
-          }
-        }
-
-        path.startsWith("file://")          -> file = VirtualFileManager.getInstance().findFileByUrl(path) // NON-NLS
-
-        else                                -> file = LocalFileSystem.getInstance().findFileByPath(path)
-      }
-
-      if (file == null && currentFile == null) {
-        // Try to refresh the file system and find the file again
-        file = LocalFileSystem.getInstance().refreshAndFindFileByPath(path)
-      }
-
-      file
+      findFileByPath(path, currentFile, refresh = true)
     }.get()
   } catch (e: ExecutionException) {
     throw RuntimeException(e)
   } catch (e: InterruptedException) {
     throw RuntimeException(e)
   }
+}
+
+private fun findFileByPath(path: String, currentFile: VirtualFile?, refresh: Boolean): VirtualFile? {
+  var file: VirtualFile? = null
+
+  when {
+    path.contains(".jar")               -> file = VirtualFileManager.getInstance().findFileByUrl("jar://$path") // NON-NLS
+    OSAgnosticPathUtil.isAbsolute(path) -> file = LocalFileSystem.getInstance().findFileByPath(path)
+    currentFile != null                 -> {
+      val parent = currentFile.parent
+      if (parent != null) {
+        file = parent.findFileByRelativePath(path)
+      }
+    }
+
+    path.startsWith("file://")          -> file = VirtualFileManager.getInstance().findFileByUrl(path) // NON-NLS
+
+    else                                -> file = LocalFileSystem.getInstance().findFileByPath(path)
+  }
+
+  if (file == null && currentFile == null && refresh) {
+    file = LocalFileSystem.getInstance().refreshAndFindFileByPath(path)
+  }
+
+  return file
 }
 
 /**
