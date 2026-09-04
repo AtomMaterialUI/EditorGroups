@@ -127,11 +127,6 @@ fun isShowToolWindowOption(): BooleanOptionDescription = CheckboxDescriptor(
   EditorGroupsSettings.instance::isShowToolWindow,
 ).asOptionDescriptor { EditorGroupsSettings.instance.fireChanged() }
 
-fun isShowFloatingButtonOption(): BooleanOptionDescription = CheckboxDescriptor(
-  getText(message("toggle.switch.file.floating.button")),
-  EditorGroupsSettings.instance::isShowFloatingButton,
-).asOptionDescriptor { EditorGroupsSettings.instance.fireChanged() }
-
 // endregion [Checkbox Definitions]
 
 internal class EditorGroupsTopHitProvider : ApplicationLevelProvider {
@@ -150,7 +145,6 @@ internal class EditorGroupsTopHitProvider : ApplicationLevelProvider {
     isInitializeSynchronouslyOption(),
     isRememberLastGroupOption(),
     isSelectRegexGroupOption(),
-    isShowFloatingButtonOption(),
     isShowMetaOption(),
     isShowPanelEnabledOption(),
     isShowSizeOption(),

@@ -60,9 +60,6 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     // Show the panel at all
     var isShowPanel: Boolean by property(true)
 
-    // Show the floating button
-    var isShowFloatingButton: Boolean by property(true)
-
     // Show the tool window
     var isShowToolWindow: Boolean by property(true)
 
@@ -208,13 +205,6 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     }
 
   @EditorGroupSetting([EditorGroupSetting.Category.UI])
-  var isShowFloatingButton: Boolean
-    get() = state.isShowFloatingButton
-    set(value) {
-      state.isShowFloatingButton = value
-    }
-
-  @EditorGroupSetting([EditorGroupSetting.Category.UI])
   var isShowToolWindow: Boolean
     get() = state.isShowToolWindow
     set(value) {
@@ -287,7 +277,6 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     clone.isRememberLastGroup = this.isRememberLastGroup
     clone.isRoundedTabs = this.isRoundedTabs
     clone.isSelectRegexGroup = this.isSelectRegexGroup
-    clone.isShowFloatingButton = this.isShowFloatingButton
     clone.isShowMeta = this.isShowMeta
     clone.isShowPanel = this.isShowPanel
     clone.isShowSize = this.isShowSize
@@ -316,7 +305,6 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     this.isRememberLastGroup = state.isRememberLastGroup
     this.isRoundedTabs = state.isRoundedTabs
     this.isSelectRegexGroup = state.isSelectRegexGroup
-    this.isShowFloatingButton = state.isShowFloatingButton
     this.isShowMeta = state.isShowMeta
     this.isShowPanel = state.isShowPanel
     this.isShowSize = state.isShowSize
@@ -357,7 +345,6 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     this.isRememberLastGroup = true
     this.isRoundedTabs = true
     this.isSelectRegexGroup = false
-    this.isShowFloatingButton = true
     this.isShowPanel = true
     this.isShowMeta = true
     this.isShowSize = true
@@ -392,7 +379,6 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     if (isRememberLastGroup != other.isRememberLastGroup) return false
     if (isRoundedTabs != other.isRoundedTabs) return false
     if (isSelectRegexGroup != other.isSelectRegexGroup) return false
-    if (isShowFloatingButton != other.isShowFloatingButton) return false
     if (isShowMeta != other.isShowMeta) return false
     if (isShowPanel != other.isShowPanel) return false
     if (isShowSize != other.isShowSize) return false
@@ -422,7 +408,6 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     result = 31 * result + isInitializeSynchronously.hashCode()
     result = 31 * result + isRememberLastGroup.hashCode()
     result = 31 * result + isRoundedTabs.hashCode()
-    result = 31 * result + isShowFloatingButton.hashCode()
     result = 31 * result + isShowMeta.hashCode()
     result = 31 * result + isShowPanel.hashCode()
     result = 31 * result + isShowSize.hashCode()
@@ -452,7 +437,6 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     |isRememberLastGroup=$isRememberLastGroup,
     |isRoundedTabs=${isRoundedTabs},
     |isSelectRegexGroup=$isSelectRegexGroup,
-    |isShowFloatingButton=$isShowFloatingButton,
     |isShowMeta=$isShowMeta,
     |isShowPanel=$isShowPanel,
     |isShowSize=$isShowSize,

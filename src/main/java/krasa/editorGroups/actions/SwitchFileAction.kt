@@ -59,11 +59,6 @@ class SwitchFileAction : QuickSwitchSchemeAction(), DumbAware {
   }
 
   override fun update(e: AnActionEvent) {
-    if (!EditorGroupsSettings.instance.isShowFloatingButton) {
-      e.presentation.isEnabledAndVisible = false
-      return
-    }
-
     val editor = e.getData(CommonDataKeys.EDITOR)
     if (editor == null || editor.editorKind != EditorKind.MAIN_EDITOR) {
       e.presentation.setEnabledAndVisible(false)

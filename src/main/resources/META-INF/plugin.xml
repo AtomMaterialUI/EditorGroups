@@ -111,7 +111,6 @@
                     class="krasa.editorGroups.actions.SwitchFileAction"
                     icon="AllIcons.Actions.ListFiles">
                 <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift alt W"/>
-                <add-to-group group-id="EditorContextBarMenu"/>
             </action>
 
             <separator/>
@@ -181,10 +180,6 @@
             </action>
 
             <separator/>
-
-            <action id="krasa.editorGroups.ToggleFloatingButton"
-                    class="krasa.editorGroups.actions.ToggleFloatingButtonAction"
-                    icon="AllIcons.General.Menu"/>
 
             <action id="krasa.editorGroups.ToggleToolWindow"
                     class="krasa.editorGroups.actions.ToggleToolWindowAction"

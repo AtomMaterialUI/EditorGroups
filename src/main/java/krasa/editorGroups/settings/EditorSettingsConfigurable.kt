@@ -49,12 +49,6 @@ internal class EditorSettingsConfigurable : BoundSearchableConfigurable(
       }
 
       row {
-        checkBox(message("EditorGroupsSettings.showFloatingButton.text"))
-          .bindSelected(settingsClone::isShowFloatingButton)
-          .comment(message("EditorGroupsSettings.showFloatingButton.tooltipText"))
-      }
-
-      row {
         checkBox(message("EditorGroupsSettings.showToolWindow.text"))
           .bindSelected(settingsClone::isShowToolWindow)
           .comment(message("EditorGroupsSettings.showToolWindow.tooltipText"))

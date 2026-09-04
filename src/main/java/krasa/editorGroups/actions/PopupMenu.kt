@@ -32,7 +32,6 @@ object PopupMenu {
     ToggleColorizeGroupsAction.ID,
     ToggleShowSizeAction.ID,
     ToggleShowMetaAction.ID,
-    ToggleFloatingButtonAction.ID,
     ToggleToolWindowAction.ID,
     "-",
     OpenConfigurationAction.ID

@@ -47,8 +47,6 @@ internal class EditorGroupsOptionContributor : SearchableOptionContributor() {
         message("EditorGroupsSettings.resetDefaultsButton.toolTipText"),
         message("EditorGroupsSettings.tabSizeLimit.text"),
         message("EditorGroupsSettings.tabSizeLimit.toolTipText"),
-        message("action.krasa.editorGroups.ToggleFloatingButton.text"),
-        message("action.krasa.editorGroups.ToggleFloatingButton.description"),
         message("action.krasa.editorGroups.ToggleToolWindow.text"),
         message("action.krasa.editorGroups.ToggleToolWindow.description"),
         message("action.krasa.editorGroups.ToggleRoundedTabs.text"),
