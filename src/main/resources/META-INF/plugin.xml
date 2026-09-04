@@ -31,7 +31,6 @@
         <h2>Advanced Features</h2>
         <ul>
             <li>Identify tabs belonging to the same group (see <em>File Colors</em> for more information)</li>
-            <li>Custom File Colors by Editor Group Type</li>
             <li>Compact Mode</li>
             <li>Hide Tabs</li>
             <li>Support for Bottom Tabs</li>
@@ -54,10 +53,6 @@
         <notificationGroup id="Editor Groups" displayType="BALLOON" bundle="messages.EditorGroupsBundle"
                            key="notification.group.editor.groups"/>
 
-        <!-- Tab Color and Title Providers -->
-        <editorTabColorProvider implementation="krasa.editorGroups.extensions.CustomEditorGroupsTabColorProvider" order="first"/>
-        <editorTabColorProvider implementation="krasa.editorGroups.extensions.CurrentEditorGroupColorProvider" order="last"/>
-
         <!-- Indices -->
         <fileBasedIndex implementation="krasa.editorGroups.index.EditorGroupIndex"/>
         <fileBasedIndex implementation="krasa.editorGroups.index.FilenameWithoutExtensionIndex"/>
@@ -77,9 +72,6 @@
 
         <search.optionContributor implementation="krasa.editorGroups.settings.EditorGroupsOptionContributor"/>
         <search.topHitProvider implementation="krasa.editorGroups.settings.EditorGroupsTopHitProvider"/>
-
-        <!-- Custom Scopes for colors -->
-        <customScopesProvider implementation="krasa.editorGroups.extensions.CustomScopesProvider"/>
 
         <!-- Theme -->
         <themeMetadataProvider path="/themes/metadata/EditorGroups.themeMetadata.json"/>
