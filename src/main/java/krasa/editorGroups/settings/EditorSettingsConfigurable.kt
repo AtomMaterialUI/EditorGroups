@@ -204,20 +204,6 @@ internal class EditorSettingsConfigurable : BoundSearchableConfigurable(
 
       performanceGroup = collapsibleGroup(message("settings.features.performance.title")) {
         row {
-          checkBox(message("EditorGroupsSettings.isExcludeEditorGroupsFilesCheckbox.text"))
-            .bindSelected(settingsClone::isExcludeEditorGroupsFiles)
-            .comment(message("EditorGroupsSettings.isExcludeEditorGroupsFilesCheckbox.toolTipText"))
-        }
-
-        row {
-          checkBox(message("EditorGroupsSettings.isIndexOnlyEditorGroupsFilesCheckbox.text"))
-            .bindSelected(settingsClone::isIndexOnlyEditorGroupsFiles)
-            .comment(message("EditorGroupsSettings.isIndexOnlyEditorGroupsFilesCheckbox.toolTipText"))
-        }
-
-        separator()
-
-        row {
           checkBox(message("EditorGroupsSettings.isInitializeSynchronouslyCheckbox.text"))
             .bindSelected(settingsClone::isInitializeSynchronously)
             .comment(message("EditorGroupsSettings.isInitializeSynchronouslyCheckbox.toolTipText"))

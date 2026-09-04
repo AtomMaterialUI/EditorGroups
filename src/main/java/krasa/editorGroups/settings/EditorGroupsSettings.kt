@@ -48,12 +48,6 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     // Index synchronously - less flicker
     var isInitializeSynchronously: Boolean by property(false)
 
-    // Index only egroups file for performance
-    var isIndexOnlyEditorGroupsFiles: Boolean by property(false)
-
-    // Exclude egroups files from indexing
-    var isExcludeEditorGroupsFiles: Boolean by property(false)
-
     // Remember last group
     var isRememberLastGroup: Boolean by property(true)
 
@@ -185,20 +179,6 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
       state.isInitializeSynchronously = value
     }
 
-  @EditorGroupSetting([EditorGroupSetting.Category.EGROUPS, EditorGroupSetting.Category.PERFORMANCE])
-  var isIndexOnlyEditorGroupsFiles: Boolean
-    get() = state.isIndexOnlyEditorGroupsFiles
-    set(value) {
-      state.isIndexOnlyEditorGroupsFiles = value
-    }
-
-  @EditorGroupSetting([EditorGroupSetting.Category.EGROUPS, EditorGroupSetting.Category.PERFORMANCE])
-  var isExcludeEditorGroupsFiles: Boolean
-    get() = state.isExcludeEditorGroupsFiles
-    set(value) {
-      state.isExcludeEditorGroupsFiles = value
-    }
-
   @EditorGroupSetting([EditorGroupSetting.Category.GROUPS])
   var isRememberLastGroup: Boolean
     get() = state.isRememberLastGroup
@@ -300,11 +280,9 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     clone.isCompactTabs = this.isCompactTabs
     clone.isContinuousScrolling = this.isContinuousScrolling
     clone.isCustomFont = this.isCustomFont
-    clone.isExcludeEditorGroupsFiles = this.isExcludeEditorGroupsFiles
     clone.isForceSwitch = this.isForceSwitch
     clone.isGroupSwitchGroupAction = this.isGroupSwitchGroupAction
     clone.isHideEmpty = this.isHideEmpty
-    clone.isIndexOnlyEditorGroupsFiles = this.isIndexOnlyEditorGroupsFiles
     clone.isInitializeSynchronously = this.isInitializeSynchronously
     clone.isRememberLastGroup = this.isRememberLastGroup
     clone.isRoundedTabs = this.isRoundedTabs
@@ -331,11 +309,9 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     this.isCompactTabs = state.isCompactTabs
     this.isContinuousScrolling = state.isContinuousScrolling
     this.isCustomFont = state.isCustomFont
-    this.isExcludeEditorGroupsFiles = state.isExcludeEditorGroupsFiles
     this.isForceSwitch = state.isForceSwitch
     this.isGroupSwitchGroupAction = state.isGroupSwitchGroupAction
     this.isHideEmpty = state.isHideEmpty
-    this.isIndexOnlyEditorGroupsFiles = state.isIndexOnlyEditorGroupsFiles
     this.isInitializeSynchronously = state.isInitializeSynchronously
     this.isRememberLastGroup = state.isRememberLastGroup
     this.isRoundedTabs = state.isRoundedTabs
@@ -374,11 +350,9 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     this.isCompactTabs = false
     this.isContinuousScrolling = false
     this.isCustomFont = false
-    this.isExcludeEditorGroupsFiles = false
     this.isForceSwitch = true
     this.isGroupSwitchGroupAction = true
     this.isHideEmpty = true
-    this.isIndexOnlyEditorGroupsFiles = false
     this.isInitializeSynchronously = false
     this.isRememberLastGroup = true
     this.isRoundedTabs = true
@@ -411,11 +385,9 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     if (isCompactTabs != other.isCompactTabs) return false
     if (isContinuousScrolling != other.isContinuousScrolling) return false
     if (isCustomFont != other.isCustomFont) return false
-    if (isExcludeEditorGroupsFiles != other.isExcludeEditorGroupsFiles) return false
     if (isForceSwitch != other.isForceSwitch) return false
     if (isGroupSwitchGroupAction != other.isGroupSwitchGroupAction) return false
     if (isHideEmpty != other.isHideEmpty) return false
-    if (isIndexOnlyEditorGroupsFiles != other.isIndexOnlyEditorGroupsFiles) return false
     if (isInitializeSynchronously != other.isInitializeSynchronously) return false
     if (isRememberLastGroup != other.isRememberLastGroup) return false
     if (isRoundedTabs != other.isRoundedTabs) return false
@@ -444,11 +416,9 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     result = 31 * result + isCompactTabs.hashCode()
     result = 31 * result + isContinuousScrolling.hashCode()
     result = 31 * result + isCustomFont.hashCode()
-    result = 31 * result + isExcludeEditorGroupsFiles.hashCode()
     result = 31 * result + isForceSwitch.hashCode()
     result = 31 * result + isGroupSwitchGroupAction.hashCode()
     result = 31 * result + isHideEmpty.hashCode()
-    result = 31 * result + isIndexOnlyEditorGroupsFiles.hashCode()
     result = 31 * result + isInitializeSynchronously.hashCode()
     result = 31 * result + isRememberLastGroup.hashCode()
     result = 31 * result + isRoundedTabs.hashCode()
@@ -475,11 +445,9 @@ class EditorGroupsSettings : SimplePersistentStateComponent<EditorGroupsSettings
     |isCompactTabs=$isCompactTabs,
     |isContinuousScrolling=$isContinuousScrolling,
     |isCustomFont=$isCustomFont,
-    |isExcludeEditorGroupsFiles=$isExcludeEditorGroupsFiles,
     |isForceSwitch=$isForceSwitch,
     |isGroupSwitchGroupAction=$isGroupSwitchGroupAction,
     |isHideEmpty=$isHideEmpty,
-    |isIndexOnlyEditorGroupsFiles=$isIndexOnlyEditorGroupsFiles,
     |isInitializeSynchronously=$isInitializeSynchronously,
     |isRememberLastGroup=$isRememberLastGroup,
     |isRoundedTabs=${isRoundedTabs},

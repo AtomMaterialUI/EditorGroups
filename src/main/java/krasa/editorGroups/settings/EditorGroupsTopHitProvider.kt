@@ -62,11 +62,6 @@ fun isContinuousScrollingOption(): BooleanOptionDescription = CheckboxDescriptor
   EditorGroupsSettings.instance::isContinuousScrolling,
 ).asOptionDescriptor { EditorGroupsSettings.instance.fireChanged() }
 
-fun toggleExcludeEditorGroupsFilesOption(): BooleanOptionDescription = CheckboxDescriptor(
-  getText(message("EditorGroupsSettings.isExcludeEditorGroupsFilesCheckbox.text")),
-  EditorGroupsSettings.instance::isExcludeEditorGroupsFiles,
-).asOptionDescriptor { EditorGroupsSettings.instance.fireChanged() }
-
 fun isForceSwitchOption(): BooleanOptionDescription = CheckboxDescriptor(
   getText(message("EditorGroupsSettings.isForceSwitchCheckbox.text")),
   EditorGroupsSettings.instance::isForceSwitch,
@@ -80,11 +75,6 @@ fun isGroupSwitchGroupActionOption(): BooleanOptionDescription = CheckboxDescrip
 fun isHideEmptyOption(): BooleanOptionDescription = CheckboxDescriptor(
   getText(message("EditorGroupsSettings.isHideEmptyCheckbox.text")),
   EditorGroupsSettings.instance::isHideEmpty,
-).asOptionDescriptor { EditorGroupsSettings.instance.fireChanged() }
-
-fun isIndexOnlyEditorGroupsFilesOption(): BooleanOptionDescription = CheckboxDescriptor(
-  getText(message("EditorGroupsSettings.isIndexOnlyEditorGroupsFilesCheckbox.text")),
-  EditorGroupsSettings.instance::isIndexOnlyEditorGroupsFiles
 ).asOptionDescriptor { EditorGroupsSettings.instance.fireChanged() }
 
 fun isInitializeSynchronouslyOption(): BooleanOptionDescription = CheckboxDescriptor(
@@ -157,7 +147,6 @@ internal class EditorGroupsTopHitProvider : ApplicationLevelProvider {
     isForceSwitchOption(),
     isGroupSwitchGroupActionOption(),
     isHideEmptyOption(),
-    isIndexOnlyEditorGroupsFilesOption(),
     isInitializeSynchronouslyOption(),
     isRememberLastGroupOption(),
     isSelectRegexGroupOption(),
@@ -169,6 +158,5 @@ internal class EditorGroupsTopHitProvider : ApplicationLevelProvider {
     isSmallLabelsOption(),
     reuseCurrentTabOption(),
     roundedTabsOption(),
-    toggleExcludeEditorGroupsFilesOption(),
   )
 }

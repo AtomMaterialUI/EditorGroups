@@ -3,11 +3,14 @@ package krasa.editorGroups.support
 import com.intellij.ui.ColorUtil
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.ColorIcon
-import krasa.editorGroups.language.annotator.LanguagePatternHolder
 import org.jetbrains.annotations.NonNls
 import java.awt.Color
+import java.util.regex.Pattern
 import javax.swing.Icon
 import javax.swing.UIManager
+
+/** Matches hexadecimal color literals, e.g. `#fff` or `#a1b2c3d4`. */
+private val hexColorPattern: Pattern = Pattern.compile("#[0-9a-fA-F]{3,8}")
 
 @NonNls
 val colorMap: HashMap<String, String> = hashMapOf(
@@ -420,8 +423,8 @@ fun String.fromHex(): Color = ColorUtil.fromHex(this)
 
 /** Converts the String to a Color object if the String matches the hex color pattern. */
 fun String.toColor(): Color? = when {
-  !LanguagePatternHolder.hexColorPattern.toRegex().matches(this) -> null
-  else                                                           -> ColorUtil.fromHex(this)
+  !hexColorPattern.toRegex().matches(this) -> null
+  else                                     -> ColorUtil.fromHex(this)
 }
 
 @Suppress("UseJBColor")

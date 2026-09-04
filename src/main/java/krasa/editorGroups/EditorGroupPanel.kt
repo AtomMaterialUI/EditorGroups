@@ -40,7 +40,6 @@ import com.intellij.util.ui.UIUtil
 import krasa.editorGroups.actions.*
 import krasa.editorGroups.events.EditorGroupChangeListener
 import krasa.editorGroups.index.IndexNotReady
-import krasa.editorGroups.language.EditorGroupsLanguage.isEditorGroupsLanguage
 import krasa.editorGroups.model.*
 import krasa.editorGroups.settings.EditorGroupsSettings
 import krasa.editorGroups.support.*
@@ -465,28 +464,13 @@ class EditorGroupPanel(
     val displayedGroupIsNotCustom = displayedGroup !== EditorGroup.EMPTY && !isCustomGroup(displayedGroup)
 
     when {
-      // Editor groups Files
-      this.currentIndex < 0 && isEditorGroupsLanguage(file) -> {
-        val link = Link.fromFile(file, project)
-        val info = MyEditorGroupTabInfo(link, pathsToNames[link] ?: return)
-
-        // Colorize the groups tab with its color
-        customizeSelectedColor(info)
-        this.currentIndex = 0
-
-        tabs.addTabSilently(info = info, index = 0)
-        tabs.mySelectedInfo = info
-      }
-
       this.currentIndex < 0 && displayedGroupIsNotCustom    -> {
         val isStub = (displayedGroup ?: return).isStub
         val links = (displayedGroup ?: return).getLinks(project)
-        val excludeEditorGroupsFiles = EditorGroupsSettings.instance.isExcludeEditorGroupsFiles
 
         when {
           !isStub && !FileResolver.excluded(
-            File(file.path),
-            excludeEditorGroupsFiles
+            File(file.path)
           )       -> thisLogger().warn("current file is not contained in group. file=$file, group=$displayedGroup, links=$links")
 
           !isStub -> thisLogger().debug("current file is excluded from the group $file $displayedGroup $links")

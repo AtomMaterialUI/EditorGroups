@@ -30,7 +30,6 @@
 
         <h2>Advanced Features</h2>
         <ul>
-            <li>Create custom groups and save them in <code>*.egroups</code> files</li>
             <li>Identify tabs belonging to the same group (see <em>File Colors</em> for more information)</li>
             <li>Custom File Colors by Editor Group Type</li>
             <li>Compact Mode</li>
@@ -81,36 +80,6 @@
 
         <!-- Custom Scopes for colors -->
         <customScopesProvider implementation="krasa.editorGroups.extensions.CustomScopesProvider"/>
-
-        <!-- Custom Files egroups -->
-        <fileType name="EditorGroups"
-                  language="EditorGroups"
-                  id="EditorGroups"
-                  extensions="egroups"
-                  fieldName="INSTANCE"
-                  implementationClass="krasa.editorGroups.language.EditorGroupsFileType"
-        />
-        <defaultLiveTemplates file="liveTemplates/EditorGroups.xml"/>
-
-        <!-- Custom Language -->
-        <lang.parserDefinition language="EditorGroups"
-                               implementationClass="krasa.editorGroups.language.EditorGroupsParserDefinition"/>
-        <lang.commenter language="EditorGroups"
-                        implementationClass="krasa.editorGroups.language.EditorGroupsCommenter"/>
-        <!-- Syntax highlighter -->
-        <externalAnnotator implementationClass="krasa.editorGroups.language.annotator.EditorGroupsExternalAnnotator"
-                           language="EditorGroups"/>
-        <!-- Completions -->
-        <completion.contributor language="EditorGroups"
-                                implementationClass="krasa.editorGroups.language.EditorGroupsFilePathCompletionContributor"
-                                id="EditorGroupsFilePathCompletionContributor"/>
-        <completion.contributor language="EditorGroups"
-                                implementationClass="krasa.editorGroups.language.EditorGroupsCompletionContributor"
-                                id="EditorGroupsCompletionContributor"/>
-
-        <!-- Color Scheme -->
-        <colorSettingsPage implementation="krasa.editorGroups.colorscheme.EditorGroupColorSettings"
-                           id="EditorGroupsColorSettings"/>
 
         <!-- Theme -->
         <themeMetadataProvider path="/themes/metadata/EditorGroups.themeMetadata.json"/>

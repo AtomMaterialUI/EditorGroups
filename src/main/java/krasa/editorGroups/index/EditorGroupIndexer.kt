@@ -6,11 +6,9 @@ import com.intellij.openapi.util.Pair
 import com.intellij.patterns.StringPattern
 import com.intellij.util.indexing.DataIndexer
 import com.intellij.util.indexing.FileContent
-import krasa.editorGroups.language.EditorGroupsLanguage
 import krasa.editorGroups.messages.EditorGroupsBundle.message
 import krasa.editorGroups.model.EditorGroupIndexValue
 import krasa.editorGroups.services.PanelRefresher
-import krasa.editorGroups.settings.EditorGroupsSettings
 import krasa.editorGroups.support.Notifications.indexingWarn
 import org.apache.commons.lang3.StringUtils
 import org.jetbrains.annotations.NonNls
@@ -34,20 +32,16 @@ class EditorGroupIndexer : DataIndexer<String, EditorGroupIndexValue, FileConten
   )
 
   /**
-   * Returns the indexed map for a given file (usually egroups files)
+   * Returns the indexed map for a given file.
    *
    * @param inputData the file
    * @return the map of indexed values
    */
   @Suppress("detekt:NestedBlockDepth") // NON-NLS
   override fun map(inputData: FileContent): Map<String, EditorGroupIndexValue> {
-    val file = inputData.file
-    val isEGroup = EditorGroupsLanguage.isEditorGroupsLanguage(file)
-    if (EditorGroupsSettings.instance.isIndexOnlyEditorGroupsFiles && !isEGroup) return emptyMap()
-
-    val ownerPath = file.path
+    val ownerPath = inputData.file.path
     try {
-      // The folder of the egroups file
+      // The folder of the indexed file
       val folder: File
       try {
         folder = File(inputData.file.parent.path)
@@ -183,7 +177,7 @@ class EditorGroupIndexer : DataIndexer<String, EditorGroupIndexValue, FileConten
     /**
      * Processes the given input data and returns an updated or new EditorGroupIndexValue.
      *
-     * @param inputData the contents of the egroups file
+     * @param inputData the contents of the indexed file
      * @param groupIndexValue the current index value of the editor group, may be null
      * @param folder the folder containing the file, may be null
      * @param value the string value to process
