@@ -2,6 +2,28 @@
 
 ## Changelog
 
+## 5.0.0
+
+### Features
+
+- New actions to group open tabs:
+  - Group by Parent Folder
+  - Group by File Name
+  - Group by Logical Structure
+  - Group by Bookmarks
+
+### Fixes
+
+- Fix the issue preventing the plugin from loading in 2026.3
+- Improved recognition of files with the same name in a multi-root project
+
+### Removals
+
+- Removed the **Custom Editor Groups** feature, as it was not used by many users.
+- Removed the **Floating Button** feature
+- Removed the **Custom Scopes** and **Tab Colorization** feature.
+
+
 ## 4.2.0
 
 ### Fixes
@@ -24,7 +46,7 @@
 
 ### Features
 
-* **Rounded Tabs**: Bring the tab style from the new _Islands Layout_ to the _EditorGroupPanel_! 
+* **Rounded Tabs**: Bring the tab style from the new _Islands Layout_ to the _EditorGroupPanel_!
 * **Group Counter**: Display a counter near the _EditorGroupPanel_ buttons that displays the number of files in the group.
 * **Tool Window**: Display the current editor group's links in a _Tool Window_, instead of (or in addition to) the _EditorGroupPanel_.
 * **Display Floating Button**: Add a setting to toggle the floating button for switching the current file.
