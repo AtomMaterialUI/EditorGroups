@@ -1,13 +1,15 @@
 @file:Suppress("HardCodedStringLiteral")
 
+import com.github.javaparser.printer.concretesyntaxmodel.CsmElement.token
 import io.gitlab.arturbosch.detekt.Detekt
+import org.gradle.internal.execution.caching.CachingState.enabled
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-fun properties(key: String) = providers.gradleProperty(key).get()
-fun environment(key: String) = providers.environmentVariable(key)
+fun properties(key: String): String = providers.gradleProperty(key).get()
+fun environment(key: String): Provider<String> = providers.environmentVariable(key)
 
 plugins {
   id("java")
@@ -18,18 +20,44 @@ plugins {
   alias(libs.plugins.ktlint)
 }
 
-val pluginGroup: String by project
-val pluginName: String by project
-val pluginVersion: String by project
-val pluginSinceBuild: String by project
-val pluginUntilBuild: String by project
+//val pluginGroup: String by project
+//val pluginName: String by project
+//val pluginVersion: String by project
+//val pluginSinceBuild: String by project
+//val pluginUntilBuild: String by project
 
-val platformVersion: String by project
+//val pluginsVersion: String = properties("pluginsVersion")
+//val rustVersion: String = properties("rustVersion")
+//val llmVersion: String = properties("llmVersion")
+
+val platformType: String = properties("platformType")
+val platformVersion: String = properties("platformVersion")
+
+val pluginName: String = properties("pluginName")
+val pluginGroup: String = properties("pluginGroup")
+//val pluginID: String = properties("pluginID")
+val pluginVersion: String = properties("pluginVersion")
+//val pluginDescription: String = properties("pluginDescription")
+val pluginSinceBuild: String = properties("pluginSinceBuild")
+val pluginUntilBuild: String = properties("pluginUntilBuild")
+
+//val pluginCode: String = properties("pluginCode")
+//val pluginReleaseDate: String = properties("pluginReleaseDate")
+//val pluginReleaseVersion: String = properties("pluginReleaseVersion")
+//
+//val pluginVendorName: String = properties("pluginVendorName")
+//val pluginVendorEmail: String = properties("pluginVendorEmail")
+//val pluginVendorUrl: String = properties("pluginVendorUrl")
+//
+//val pluginChannels: String = properties("pluginChannels")
+
+val javaVersion: String = properties("javaVersion")
+val gradleVersion: String = properties("gradleVersion")
 
 group = properties("pluginGroup")
 version = properties("pluginVersion")
 
-val javaVersion: String by project
+//val javaVersion: String by project
 
 repositories {
   mavenCentral()
@@ -43,19 +71,22 @@ repositories {
 }
 
 dependencies {
-  detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.7")
-  implementation("commons-io:commons-io:2.17.0")
-  implementation("org.apache.commons:commons-lang3:3.18.0")
+  detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.8")
+  implementation("commons-io:commons-io:2.22.0")
+  implementation("org.apache.commons:commons-lang3:3.20.0")
 
   intellijPlatform {
-    intellijIdeaUltimate(platformVersion, useInstaller = false)
+    create(platformType, platformVersion) {
+      useInstaller = false
+    }
+    bundledModule("intellij.regexp")
     pluginVerifier()
     zipSigner()
   }
 }
 
 kotlin {
-  jvmToolchain(17)
+  jvmToolchain(javaVersion.toInt())
 }
 
 detekt {
@@ -111,7 +142,7 @@ intellijPlatform {
 
 tasks {
   wrapper {
-    gradleVersion = "8.9"
+    gradleVersion = "9.7.1"
   }
 
   buildSearchableOptions {

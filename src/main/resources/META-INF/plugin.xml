@@ -49,7 +49,6 @@
     </description>
 
     <depends>com.intellij.modules.lang</depends>
-
     <resource-bundle>messages.EditorGroupsBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
