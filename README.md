@@ -36,22 +36,6 @@ Show all files and line bookmarks from your bookmark groups.
 
 Define regex groups and group all files matching the regex.
 
-### Custom Groups
-
-Define your own groups in `.egroups` files, that you can share and modify at your guise.
-
-![Custom Groups](docs/assets/customGroup.png)
-
-The plugin comes with it's own language support for `.egroups` files:
-
-- Easily create new `egroups` files from the menu
-- Syntax highlighting
-- Code completion
-- Color preview
-- Customizable colors
-
-![Custom Language](docs/assets/customLanguage.png)
-
 ### Group Switcher
 
 Quickly switch between groups using the group switcher.
@@ -109,7 +93,6 @@ You can enter the settings either by looking for `Editor Groups` in the settings
 
 By default, the plugin will try to match the best suited group for the current file:
 
-- If it belongs to a custom group
 - If it belongs to a bookmark group
 
 If no match is found, it will fall back to the following cases, in this order:
@@ -122,13 +105,6 @@ If no match is found (e.g. there is only one file in this group, the current fil
 
 * If **Hide Panel If Empty** is enabled, the panel will be hidden
 * Otherwise it will display the current file
-
-#### Force Switch to a Custom Group
-
-You can force the plugin to automatically switch to a defined custom group by pressing the *Refresh* button,
-without having to select the custom group manually.
-
-This can be useful when designing custom groups, to make sure that files are matched correctly.
 
 #### Remember Last Group
 
@@ -158,7 +134,7 @@ You can change the font of the tabs.
 
 #### Display Group Size
 
-Displays the size of the group for custom groups
+Displays the size of the group.
 
 ![Display Group Size](docs/assets/switchEditorGroup.png)
 
@@ -190,15 +166,6 @@ Colors Settings_.
 
 You can also improve the performance of the plugins with the following options
 
-### Exclude *.egroups files
-
-Exclude the custom groups from the list of available groups. This can be useful if you have a lot of groups or if you don't plan to use the
-custom groups feature, without having to delete the `*.egroups` files.
-
-### Index *.egroups files only
-
-On the contrary, you can decide to only use the custom groups and ignore the default, bookmarks and regex groups.
-
 ### Initialize groups synchronously
 
 By default, the plugin will match files belonging to the same group asynchronously, which results in showing a "Loading..." pane until all
@@ -212,80 +179,3 @@ The maximum number of files that can be matched within a group. If the group siz
 
 The maximum number of tabs that can be displayed in the tab panel. If the number of tabs exceeds this limit, the exceeding tabs will not be
 displayed.
-
-----
-
-## Custom Groups Syntax
-
-You can define your own groups in `.egroups` files using a custom syntax provided by the plugin.
-
-![Custom Groups Syntax](docs/assets/customLanguage.png)
-
-These files should contain a list of groups separated by one or more blank lines.
-
-### Rules
-
-- Each group should have an **ID**: `@group.id myUniqueId`
-- A group might have a **root directory**: `@group.root .*`. If unspecified, the root directory of the project will be used.
-- A group must have a **title**. It will be displayed in the _Group Switcher_.
-- A group must have a **path pattern** for the related files: `@group.related .*/*.svg`
-    - A path is relative to the root
-    - It can contain absolute and relative paths
-    - It must be a regex
-    - You can use macros like `MODULE`, `PROJECT` to reference respectively the current module or the project root
-    - You can also use `globs`, e.g. something like `src/**/*.kt` (experimental!)
-- A group can have both a **color** and **fgcolor** to give them a custom background and foreground color:
-    - `@group.color #FF0096`
-    - `@group.fgcolor #FFFFFF`
-    - You can preview the color directly in the file
-    - You can enter a hex color in the forms: #123, #123456 or #12345600
-    - You can also use a color from a predefined list of colors by invoking the autocompletion
-- A group can be **disabled**: `@group.disable`
-
-Please note that this is a very naive implementation of a custom language. It does not have any error checking or validation, so be careful
-when editing these files.
-
-### Examples
-
-#### Relative paths to the current file
-
-- `@group.related file.txt`
-- `@group.related ../file.txt`
-
-#### Absolute paths
-
-- `@group.related C:/file.txt`
-- `@group.related /file.txt`
-
-#### Macros
-
-- `@group.related MODULE/src/file.txt`
-- `@group.related PROJECT/myModule/src/file.txt`
-
-#### Wildcards
-
-- `@group.related ./*`
-- `@group.related *.txt`
-- `@group.related file.*`
-- `@group.related f??e.txt`
-- `@group.related fileName` (with all extensions, unless the file exists)
-
-#### Exact filename anywhere in the project
-
-- `@group.related */foo/file.txt`
-
-#### All files with the same name anywhere in the project
-
-- `@group.related \*/foo/file.*`
-
-#### Tab/Title customization
-
-- `@group.title yourTitle`
-- `@group.color yellow` (a name from https://www.w3schools.com/colors/colors_names.asp)
-- `@group.color yellow+3` (or yellow+++ or yellow-3 or yellow--- for darker or brighter shade)
-- `@group.color #FF0096`
-- `@group.color 0xFF0096`
-
-#### Disable group
-
-- `@group.disable` (disables indexing of the current file)

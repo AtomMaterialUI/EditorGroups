@@ -24,6 +24,7 @@ object PopupMenu {
     ToggleAutoSameFeatureGroupsAction.ID,
     ToggleAutoSameNameGroupsAction.ID,
     ToggleAutoFolderGroupsAction.ID,
+    "krasa.editorGroups.ReorderTabs",
     ToggleForceAction.ID,
     ToggleHideEmptyAction.ID,
     "-",

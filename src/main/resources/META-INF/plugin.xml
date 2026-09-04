@@ -211,6 +211,22 @@
                     class="krasa.editorGroups.actions.ToggleReuseCurrentTabAction"
                     icon="AllIcons.General.Pin_tab"/>
 
+            <group id="krasa.editorGroups.ReorderTabs" popup="true" icon="AllIcons.Actions.GroupBy">
+                <add-to-group group-id="EditorTabPopupMenu" anchor="last"/>
+                <action id="krasa.editorGroups.ReorderTabsByParentFolder"
+                        class="krasa.editorGroups.actions.ReorderTabsByParentFolderAction"
+                        icon="AllIcons.Nodes.Folder"/>
+                <action id="krasa.editorGroups.ReorderTabsByFilename"
+                        class="krasa.editorGroups.actions.ReorderTabsByFilenameAction"
+                        icon="AllIcons.FileTypes.Text"/>
+                <action id="krasa.editorGroups.ReorderTabsByLogicalName"
+                        class="krasa.editorGroups.actions.ReorderTabsByLogicalNameAction"
+                        icon="AllIcons.Actions.GroupBy"/>
+                <action id="krasa.editorGroups.ReorderTabsByBookmarks"
+                        class="krasa.editorGroups.actions.ReorderTabsByBookmarksAction"
+                        icon="AllIcons.General.Pin_tab"/>
+            </group>
+
             <separator/>
 
             <action id="krasa.editorGroups.ToggleRoundedTabs"
@@ -258,6 +274,8 @@
             <reference ref="krasa.editorGroups.Previous"/>
             <reference ref="krasa.editorGroups.PreviousInNewTab"/>
             <reference ref="krasa.editorGroups.PreviousInNewWindow"/>
+            <separator/>
+            <reference ref="krasa.editorGroups.ReorderTabs"/>
         </group>
 
     </actions>
