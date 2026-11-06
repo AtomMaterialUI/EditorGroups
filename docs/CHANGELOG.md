@@ -2,6 +2,13 @@
 
 ## Changelog
 
+## 4.2.0
+
+### Fixes
+
+- Fix wrong colors for the hovered tab in some themes
+- Change defaults: replace current tab, groups and metadata are now on by default
+
 ## 4.1.0
 
 ### Features
@@ -17,7 +24,7 @@
 
 ### Features
 
-* **Rounded Tabs**: Bring the tab style from the new _Islands Layout_ to the _EditorGroupPanel_! 
+* **Rounded Tabs**: Bring the tab style from the new _Islands Layout_ to the _EditorGroupPanel_!
 * **Group Counter**: Display a counter near the _EditorGroupPanel_ buttons that displays the number of files in the group.
 * **Tool Window**: Display the current editor group's links in a _Tool Window_, instead of (or in addition to) the _EditorGroupPanel_.
 * **Display Floating Button**: Add a setting to toggle the floating button for switching the current file.

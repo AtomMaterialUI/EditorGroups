@@ -24,13 +24,13 @@
 
 package krasa.editorGroups.settings.regex.internal
 
+import com.intellij.openapi.fileTypes.FileTypes
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManager
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFileFactory
 import com.intellij.ui.EditorTextField
 import com.intellij.util.ui.JBUI
-import org.intellij.lang.regexp.RegExpFileType
 import java.awt.Component
 import javax.swing.BorderFactory
 import javax.swing.JTable
@@ -59,14 +59,14 @@ class RegExpTableCellRenderer : DefaultTableCellRenderer() {
   ): Component {
     val psiFile =
       factory.createFileFromText(
-        /* language = */ RegExpFileType.INSTANCE.language,
+        /* language = */ FileTypes.PLAIN_TEXT.language,
         /* text = */ value as String
       )
 
     val editorTextField = object : EditorTextField(
       /* document = */ documentManager.getDocument(psiFile),
       /* project = */ project,
-      /* fileType = */ RegExpFileType.INSTANCE,
+      /* fileType = */ FileTypes.PLAIN_TEXT,
       /* isViewer = */ true,
       /* oneLineMode = */ true
     ) {

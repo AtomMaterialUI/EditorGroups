@@ -33,9 +33,9 @@ import com.intellij.openapi.ui.ComponentValidator
 import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.openapi.ui.cellvalidators.StatefulValidatingCellEditor
 import com.intellij.openapi.ui.cellvalidators.ValidatingTableCellRendererWrapper
+import com.intellij.openapi.fileTypes.FileTypes
 import com.intellij.openapi.util.Disposer
 import com.intellij.ui.EditorTextField
-import org.intellij.lang.regexp.RegExpFileType
 import java.awt.Component
 import java.awt.event.KeyEvent
 import java.util.function.Consumer
@@ -58,7 +58,7 @@ class RegexpEditor(textField: JTextField, parent: Disposable) :
     EditorTextField(
       EditorFactory.getInstance().createDocument("dummy.regexp"),
       ProjectManager.getInstance().defaultProject,
-      RegExpFileType.INSTANCE,
+      FileTypes.PLAIN_TEXT,
       false,
       true
     )
@@ -73,7 +73,7 @@ class RegexpEditor(textField: JTextField, parent: Disposable) :
     // Creates a regex editor
     @Suppress("UsePropertyAccessSyntax")
     editor.setOneLineMode(true)
-    editor.fileType = RegExpFileType.INSTANCE
+    editor.fileType = FileTypes.PLAIN_TEXT
     // Register enter and escape keys
     editor.registerKeyboardAction(
       { stopCellEditing() },
