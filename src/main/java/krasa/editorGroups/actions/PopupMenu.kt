@@ -24,6 +24,7 @@ object PopupMenu {
     ToggleAutoSameFeatureGroupsAction.ID,
     ToggleAutoSameNameGroupsAction.ID,
     ToggleAutoFolderGroupsAction.ID,
+    "krasa.editorGroups.ReorderTabs",
     ToggleForceAction.ID,
     ToggleHideEmptyAction.ID,
     "-",
@@ -32,7 +33,6 @@ object PopupMenu {
     ToggleColorizeGroupsAction.ID,
     ToggleShowSizeAction.ID,
     ToggleShowMetaAction.ID,
-    ToggleFloatingButtonAction.ID,
     ToggleToolWindowAction.ID,
     "-",
     OpenConfigurationAction.ID

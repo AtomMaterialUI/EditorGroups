@@ -30,9 +30,7 @@
 
         <h2>Advanced Features</h2>
         <ul>
-            <li>Create custom groups and save them in <code>*.egroups</code> files</li>
             <li>Identify tabs belonging to the same group (see <em>File Colors</em> for more information)</li>
-            <li>Custom File Colors by Editor Group Type</li>
             <li>Compact Mode</li>
             <li>Hide Tabs</li>
             <li>Support for Bottom Tabs</li>
@@ -49,16 +47,11 @@
     </description>
 
     <depends>com.intellij.modules.lang</depends>
-
     <resource-bundle>messages.EditorGroupsBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="Editor Groups" displayType="BALLOON" bundle="messages.EditorGroupsBundle"
                            key="notification.group.editor.groups"/>
-
-        <!-- Tab Color and Title Providers -->
-        <editorTabColorProvider implementation="krasa.editorGroups.extensions.CustomEditorGroupsTabColorProvider" order="first"/>
-        <editorTabColorProvider implementation="krasa.editorGroups.extensions.CurrentEditorGroupColorProvider" order="last"/>
 
         <!-- Indices -->
         <fileBasedIndex implementation="krasa.editorGroups.index.EditorGroupIndex"/>
@@ -79,39 +72,6 @@
 
         <search.optionContributor implementation="krasa.editorGroups.settings.EditorGroupsOptionContributor"/>
         <search.topHitProvider implementation="krasa.editorGroups.settings.EditorGroupsTopHitProvider"/>
-
-        <!-- Custom Scopes for colors -->
-        <customScopesProvider implementation="krasa.editorGroups.extensions.CustomScopesProvider"/>
-
-        <!-- Custom Files egroups -->
-        <fileType name="EditorGroups"
-                  language="EditorGroups"
-                  id="EditorGroups"
-                  extensions="egroups"
-                  fieldName="INSTANCE"
-                  implementationClass="krasa.editorGroups.language.EditorGroupsFileType"
-        />
-        <defaultLiveTemplates file="liveTemplates/EditorGroups.xml"/>
-
-        <!-- Custom Language -->
-        <lang.parserDefinition language="EditorGroups"
-                               implementationClass="krasa.editorGroups.language.EditorGroupsParserDefinition"/>
-        <lang.commenter language="EditorGroups"
-                        implementationClass="krasa.editorGroups.language.EditorGroupsCommenter"/>
-        <!-- Syntax highlighter -->
-        <externalAnnotator implementationClass="krasa.editorGroups.language.annotator.EditorGroupsExternalAnnotator"
-                           language="EditorGroups"/>
-        <!-- Completions -->
-        <completion.contributor language="EditorGroups"
-                                implementationClass="krasa.editorGroups.language.EditorGroupsFilePathCompletionContributor"
-                                id="EditorGroupsFilePathCompletionContributor"/>
-        <completion.contributor language="EditorGroups"
-                                implementationClass="krasa.editorGroups.language.EditorGroupsCompletionContributor"
-                                id="EditorGroupsCompletionContributor"/>
-
-        <!-- Color Scheme -->
-        <colorSettingsPage implementation="krasa.editorGroups.colorscheme.EditorGroupColorSettings"
-                           id="EditorGroupsColorSettings"/>
 
         <!-- Theme -->
         <themeMetadataProvider path="/themes/metadata/EditorGroups.themeMetadata.json"/>
@@ -151,7 +111,6 @@
                     class="krasa.editorGroups.actions.SwitchFileAction"
                     icon="AllIcons.Actions.ListFiles">
                 <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift alt W"/>
-                <add-to-group group-id="EditorContextBarMenu"/>
             </action>
 
             <separator/>
@@ -222,10 +181,6 @@
 
             <separator/>
 
-            <action id="krasa.editorGroups.ToggleFloatingButton"
-                    class="krasa.editorGroups.actions.ToggleFloatingButtonAction"
-                    icon="AllIcons.General.Menu"/>
-
             <action id="krasa.editorGroups.ToggleToolWindow"
                     class="krasa.editorGroups.actions.ToggleToolWindowAction"
                     icon="AllIcons.General.HideToolWindow"/>
@@ -255,6 +210,22 @@
             <action id="krasa.editorGroups.ToggleReuseCurrentTabAction"
                     class="krasa.editorGroups.actions.ToggleReuseCurrentTabAction"
                     icon="AllIcons.General.Pin_tab"/>
+
+            <group id="krasa.editorGroups.ReorderTabs" popup="true" icon="AllIcons.Actions.GroupBy">
+                <add-to-group group-id="EditorTabPopupMenu" anchor="last"/>
+                <action id="krasa.editorGroups.ReorderTabsByParentFolder"
+                        class="krasa.editorGroups.actions.ReorderTabsByParentFolderAction"
+                        icon="AllIcons.Nodes.Folder"/>
+                <action id="krasa.editorGroups.ReorderTabsByFilename"
+                        class="krasa.editorGroups.actions.ReorderTabsByFilenameAction"
+                        icon="AllIcons.FileTypes.Text"/>
+                <action id="krasa.editorGroups.ReorderTabsByLogicalName"
+                        class="krasa.editorGroups.actions.ReorderTabsByLogicalNameAction"
+                        icon="AllIcons.Actions.GroupBy"/>
+                <action id="krasa.editorGroups.ReorderTabsByBookmarks"
+                        class="krasa.editorGroups.actions.ReorderTabsByBookmarksAction"
+                        icon="AllIcons.General.Pin_tab"/>
+            </group>
 
             <separator/>
 
@@ -303,6 +274,8 @@
             <reference ref="krasa.editorGroups.Previous"/>
             <reference ref="krasa.editorGroups.PreviousInNewTab"/>
             <reference ref="krasa.editorGroups.PreviousInNewWindow"/>
+            <separator/>
+            <reference ref="krasa.editorGroups.ReorderTabs"/>
         </group>
 
     </actions>

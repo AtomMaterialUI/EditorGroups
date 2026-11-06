@@ -62,11 +62,6 @@ fun isContinuousScrollingOption(): BooleanOptionDescription = CheckboxDescriptor
   EditorGroupsSettings.instance::isContinuousScrolling,
 ).asOptionDescriptor { EditorGroupsSettings.instance.fireChanged() }
 
-fun toggleExcludeEditorGroupsFilesOption(): BooleanOptionDescription = CheckboxDescriptor(
-  getText(message("EditorGroupsSettings.isExcludeEditorGroupsFilesCheckbox.text")),
-  EditorGroupsSettings.instance::isExcludeEditorGroupsFiles,
-).asOptionDescriptor { EditorGroupsSettings.instance.fireChanged() }
-
 fun isForceSwitchOption(): BooleanOptionDescription = CheckboxDescriptor(
   getText(message("EditorGroupsSettings.isForceSwitchCheckbox.text")),
   EditorGroupsSettings.instance::isForceSwitch,
@@ -80,11 +75,6 @@ fun isGroupSwitchGroupActionOption(): BooleanOptionDescription = CheckboxDescrip
 fun isHideEmptyOption(): BooleanOptionDescription = CheckboxDescriptor(
   getText(message("EditorGroupsSettings.isHideEmptyCheckbox.text")),
   EditorGroupsSettings.instance::isHideEmpty,
-).asOptionDescriptor { EditorGroupsSettings.instance.fireChanged() }
-
-fun isIndexOnlyEditorGroupsFilesOption(): BooleanOptionDescription = CheckboxDescriptor(
-  getText(message("EditorGroupsSettings.isIndexOnlyEditorGroupsFilesCheckbox.text")),
-  EditorGroupsSettings.instance::isIndexOnlyEditorGroupsFiles
 ).asOptionDescriptor { EditorGroupsSettings.instance.fireChanged() }
 
 fun isInitializeSynchronouslyOption(): BooleanOptionDescription = CheckboxDescriptor(
@@ -137,11 +127,6 @@ fun isShowToolWindowOption(): BooleanOptionDescription = CheckboxDescriptor(
   EditorGroupsSettings.instance::isShowToolWindow,
 ).asOptionDescriptor { EditorGroupsSettings.instance.fireChanged() }
 
-fun isShowFloatingButtonOption(): BooleanOptionDescription = CheckboxDescriptor(
-  getText(message("toggle.switch.file.floating.button")),
-  EditorGroupsSettings.instance::isShowFloatingButton,
-).asOptionDescriptor { EditorGroupsSettings.instance.fireChanged() }
-
 // endregion [Checkbox Definitions]
 
 internal class EditorGroupsTopHitProvider : ApplicationLevelProvider {
@@ -157,11 +142,9 @@ internal class EditorGroupsTopHitProvider : ApplicationLevelProvider {
     isForceSwitchOption(),
     isGroupSwitchGroupActionOption(),
     isHideEmptyOption(),
-    isIndexOnlyEditorGroupsFilesOption(),
     isInitializeSynchronouslyOption(),
     isRememberLastGroupOption(),
     isSelectRegexGroupOption(),
-    isShowFloatingButtonOption(),
     isShowMetaOption(),
     isShowPanelEnabledOption(),
     isShowSizeOption(),
@@ -169,6 +152,5 @@ internal class EditorGroupsTopHitProvider : ApplicationLevelProvider {
     isSmallLabelsOption(),
     reuseCurrentTabOption(),
     roundedTabsOption(),
-    toggleExcludeEditorGroupsFilesOption(),
   )
 }

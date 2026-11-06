@@ -1,11 +1,11 @@
 package krasa.editorGroups.index
 
+import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.newvfs.impl.VirtualFileSystemEntry
 import com.intellij.util.indexing.*
 import com.intellij.util.io.EnumeratorStringDescriptor
 import com.intellij.util.io.KeyDescriptor
-import org.apache.commons.lang3.StringUtils
 import org.jetbrains.annotations.NonNls
 import java.util.*
 
@@ -23,7 +23,7 @@ internal class FilenameWithoutExtensionIndex : ScalarIndexExtension<String?>() {
    */
   override fun getIndexer(): DataIndexer<String?, Void?, FileContent> = DataIndexer<String?, Void?, FileContent> { inputData ->
     val fileName = inputData.fileName
-    val key = StringUtils.substringBefore(fileName, ".")
+    val key = FileUtil.getNameWithoutExtension(fileName)
     Collections.singletonMap<String?, Void?>(key, null)
   }
 
@@ -67,7 +67,7 @@ internal class FilenameWithoutExtensionIndex : ScalarIndexExtension<String?>() {
    *
    * @return The current version of the index.
    */
-  override fun getVersion(): Int = 1
+  override fun getVersion(): Int = 2
 
   /**
    * Indicates whether the indexing process should trace the key hash to the virtual file mapping.

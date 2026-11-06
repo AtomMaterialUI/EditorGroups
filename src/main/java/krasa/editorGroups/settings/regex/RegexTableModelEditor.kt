@@ -10,17 +10,11 @@ import com.intellij.util.ui.*
 import com.intellij.util.ui.table.ComboBoxTableCellEditor
 import krasa.editorGroups.model.RegexGroupModel
 import krasa.editorGroups.model.Scope
-import krasa.editorGroups.support.generateColor
-import krasa.editorGroups.support.toHex
-import java.awt.Color
 import java.awt.Dimension
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
-import java.awt.event.MouseEvent
 import javax.swing.JComponent
 import javax.swing.ListSelectionModel
-import javax.swing.RowSorter
-import javax.swing.SortOrder
 import javax.swing.event.DocumentEvent
 
 class RegexTableModelEditor(
@@ -63,13 +57,6 @@ class RegexTableModelEditor(
     table.visibleRowCount = MIN_ROW_COUNT
     table.rowHeight = ROW_HEIGHT
     table.rowMargin = 0
-    // sort by priority but remove the column from the table
-    table.rowSorter.sortKeys = listOf(
-      RowSorter.SortKey(
-        Columns.PRIORITY.index,
-        SortOrder.DESCENDING
-      )
-    )
     table.removeColumn(table.columnModel.getColumn(Columns.TOUCHED.index))
 
     // Special support for checkbox: toggle by clicking or space
@@ -108,8 +95,6 @@ class RegexTableModelEditor(
       })
     }
 
-    // Color picker listening
-    MyColorPickerListener().installOn(table)
   }
 
   constructor(
@@ -213,8 +198,6 @@ class RegexTableModelEditor(
     newModel.scope = Scope.CURRENT_FOLDER
     newModel.regex = ".*"
     newModel.notComparingGroups = null
-    newModel.myColor = generateColor()
-    newModel.priority = 0
     return newModel
   }
 
@@ -313,40 +296,6 @@ class RegexTableModelEditor(
     }
   }
 
-  inner class MyColorPickerListener : ClickListener() {
-    override fun onClick(event: MouseEvent, clickCount: Int): Boolean {
-      val point = event.point
-      val row: Int = table.rowAtPoint(point)
-      val column: Int = table.columnAtPoint(point) + 1 // Because the touched takes a slot...
-      if (row < 0 || column < 0) return false
-      val modelIndex = table.convertRowIndexToModel(row)
-
-      if (modelIndex < 0 || modelIndex >= table.rowCount) return false
-
-      return when (column) {
-        Columns.COLOR.index -> setGroupColor(modelIndex)
-        else                -> false
-      }
-    }
-
-    private fun setGroupColor(row: Int): Boolean {
-      val colorValue: Any = model.getValueAt(row, Columns.COLOR.index)
-      val modelColor: Color = ColorUtil.fromHex(colorValue as String)
-
-      ColorChooserService.getInstance().showPopup(null, modelColor, { color, _ ->
-        color?.let {
-          model.setValueAt(
-            aValue = it.toHex(),
-            rowIndex = row,
-            columnIndex = Columns.COLOR.index
-          )
-        }
-      })
-
-      return true
-    }
-  }
-
   companion object {
     const val MAX_ITEMS: Int = 60
     const val MIN_ROW_COUNT: Int = 18
@@ -363,8 +312,6 @@ class RegexTableModelEditor(
       REGEX(3),
       SCOPE(4),
       NOT_COMPARING_GROUPS(5),
-      COLOR(6),
-      PRIORITY(7),
     }
   }
 }

@@ -5,7 +5,6 @@ package krasa.editorGroups.settings
 annotation class EditorGroupSetting(val categories: Array<Category>) {
   enum class Category {
     GROUPS,
-    EGROUPS,
     PERFORMANCE,
     TABS,
     REGEX,

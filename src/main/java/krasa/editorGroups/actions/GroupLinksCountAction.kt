@@ -31,6 +31,9 @@ class GroupLinksCountAction : DumbAwareAction() {
     val backgroundColor: Color
       get() = JBColor.namedColor("Counter.background", Color(-0x33655850, true))
 
+    val foregroundColor: Color
+      get() = JBColor.namedColor("Counter.foreground", Color(-0x1, true))
+
     override fun paintIcon(c: Component?, g: Graphics, x: Int, y: Int) {
       val counterText = counter.toString()
       val g2d = g as Graphics2D
@@ -41,7 +44,7 @@ class GroupLinksCountAction : DumbAwareAction() {
       g2d.color = backgroundColor
       g2d.fillOval(x, y, ICON_SIZE, ICON_SIZE)
 
-      g2d.color = UIUtil.getPanelBackground()
+      g2d.color = foregroundColor
       g2d.font = g2d.font.deriveFont(fontSize.toFloat())
       drawCenteredString(
         g2d,

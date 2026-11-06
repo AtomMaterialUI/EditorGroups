@@ -17,7 +17,6 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import krasa.editorGroups.index.FileNameIndexService
-import krasa.editorGroups.language.EditorGroupsLanguage
 import krasa.editorGroups.messages.EditorGroupsBundle.message
 import krasa.editorGroups.model.EditorGroupIndexValue
 import krasa.editorGroups.model.Link
@@ -35,13 +34,10 @@ import java.util.*
 
 open class FileResolver {
   protected val project: Project
-  protected val excludeEditorGroupsFiles: Boolean
   private val links: MutableSet<String>
 
   constructor(project: Project) {
     this.project = project
-    excludeEditorGroupsFiles = EditorGroupsSettings.instance.isExcludeEditorGroupsFiles
-
     links = object : LinkedHashSet<String>() {
       override fun add(element: String): Boolean = super.add(sanitize(element))
     }
@@ -280,7 +276,7 @@ open class FileResolver {
   protected fun add(file: File, definedManually: Boolean) {
     if (links.size > EditorGroupsSettings.instance.groupSizeLimit) throw TooManyFilesException()
 
-    if (file.isFile && !(!definedManually && excluded(file, excludeEditorGroupsFiles))) {
+    if (file.isFile && !(!definedManually && excluded(file))) {
       links.add(getCanonicalPath(file))
     }
   }
@@ -347,9 +343,6 @@ open class FileResolver {
     }
 
     @JvmStatic
-    fun excluded(file: File, excludeEditorGroupsFiles: Boolean): Boolean = when {
-      excludeEditorGroupsFiles && EditorGroupsLanguage.isEditorGroupsLanguage(getCanonicalPath(file)) -> true
-      else                                                                                            -> FileUtil.isJarOrZip(file)
-    }
+    fun excluded(file: File): Boolean = FileUtil.isJarOrZip(file)
   }
 }

@@ -49,12 +49,6 @@ internal class EditorSettingsConfigurable : BoundSearchableConfigurable(
       }
 
       row {
-        checkBox(message("EditorGroupsSettings.showFloatingButton.text"))
-          .bindSelected(settingsClone::isShowFloatingButton)
-          .comment(message("EditorGroupsSettings.showFloatingButton.tooltipText"))
-      }
-
-      row {
         checkBox(message("EditorGroupsSettings.showToolWindow.text"))
           .bindSelected(settingsClone::isShowToolWindow)
           .comment(message("EditorGroupsSettings.showToolWindow.tooltipText"))
@@ -203,20 +197,6 @@ internal class EditorSettingsConfigurable : BoundSearchableConfigurable(
         .also { it.expanded = true }
 
       performanceGroup = collapsibleGroup(message("settings.features.performance.title")) {
-        row {
-          checkBox(message("EditorGroupsSettings.isExcludeEditorGroupsFilesCheckbox.text"))
-            .bindSelected(settingsClone::isExcludeEditorGroupsFiles)
-            .comment(message("EditorGroupsSettings.isExcludeEditorGroupsFilesCheckbox.toolTipText"))
-        }
-
-        row {
-          checkBox(message("EditorGroupsSettings.isIndexOnlyEditorGroupsFilesCheckbox.text"))
-            .bindSelected(settingsClone::isIndexOnlyEditorGroupsFiles)
-            .comment(message("EditorGroupsSettings.isIndexOnlyEditorGroupsFilesCheckbox.toolTipText"))
-        }
-
-        separator()
-
         row {
           checkBox(message("EditorGroupsSettings.isInitializeSynchronouslyCheckbox.text"))
             .bindSelected(settingsClone::isInitializeSynchronously)

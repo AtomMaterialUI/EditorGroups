@@ -19,6 +19,7 @@ publishToken
 # General
 .DS_Store
 .AppleDouble
+.kotlin
 .LSOverride
 
 # Icon must end with two \r
