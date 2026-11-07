@@ -3,10 +3,10 @@ package krasa.editorGroups.extensions
 import com.intellij.openapi.extensions.ExtensionPointName
 import com.intellij.openapi.extensions.PluginAware
 import com.intellij.openapi.extensions.PluginDescriptor
-import com.intellij.openapi.util.IconLoader
 import com.intellij.util.xmlb.annotations.Attribute
 import krasa.editorGroups.model.RegexGroupModel
 import krasa.editorGroups.model.Scope
+import krasa.editorGroups.support.IconPathLoader
 import krasa.editorGroups.support.fromHex
 import krasa.editorGroups.support.generateColor
 import krasa.editorGroups.support.toValueList
@@ -103,11 +103,8 @@ class RegexGroupEP : PluginAware {
       isFromExtension = true,
       extensionId = id ?: name ?: groupName,
       description = description,
-      icon = icon?.takeIf { it.isNotBlank() }?.let {
-        runCatching {
-          IconLoader.findIcon(it, pluginDescriptor?.pluginClassLoader ?: javaClass.classLoader)
-        }.getOrNull()
-      },
+      icon = IconPathLoader.load(icon, pluginDescriptor?.pluginClassLoader ?: javaClass.classLoader),
+      iconPath = icon?.takeIf { it.isNotBlank() },
     )
   }
 
