@@ -174,3 +174,6 @@ chain.crt
 *.hprof
 
 .self-update
+
+.junie/plans
+docs/adr
