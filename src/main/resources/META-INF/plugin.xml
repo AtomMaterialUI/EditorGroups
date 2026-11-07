@@ -201,8 +201,6 @@
         <search.optionContributor implementation="krasa.editorGroups.settings.EditorGroupsOptionContributor"/>
         <search.topHitProvider implementation="krasa.editorGroups.settings.EditorGroupsTopHitProvider"/>
 
-        <!-- Theme -->
-        <themeMetadataProvider path="/themes/metadata/EditorGroups.themeMetadata.json"/>
 
         <!-- Rounded Tabs (Islands) -->
         <applicationService serviceInterface="krasa.editorGroups.tabs2.impl.rounded.KrRoundedTabsPainterProvider"
