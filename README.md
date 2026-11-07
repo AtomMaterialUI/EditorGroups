@@ -194,6 +194,11 @@ Colors Settings_.
 
 ![Custom File Colors](docs/assets/customScopes.png)
 
+#### Third-Party Theme Compatibility
+
+The tab panel colors fall back to the IDE's native `EditorTabs` colors when a third-party theme does not explicitly define
+`EditorGroupsTabs.*` keys. This ensures the panel blends seamlessly with any theme, even those that use wildcard UI rules.
+
 ----
 
 ### Performance
