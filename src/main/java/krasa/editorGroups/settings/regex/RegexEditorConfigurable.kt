@@ -11,7 +11,6 @@ import com.intellij.ui.dsl.builder.AlignX
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.util.ui.ColumnInfo
 import krasa.editorGroups.messages.EditorGroupsBundle.message
-import krasa.editorGroups.model.RegexGroupModels
 import krasa.editorGroups.settings.regex.columns.*
 import javax.swing.JComponent
 import javax.swing.JPanel
@@ -19,7 +18,7 @@ import javax.swing.JPanel
 internal class RegexEditorConfigurable :
   BoundSearchableConfigurable(
     message("settings.regex"),
-    ID
+    ID,
   ),
   Disposable {
   private var main: DialogPanel? = null
@@ -102,7 +101,7 @@ internal class RegexEditorConfigurable :
         message("RegexEditorConfigurable.resetDialog.title"),
         message("ok"),
         message("cancel"),
-        Messages.getQuestionIcon()
+        Messages.getQuestionIcon(),
       ) != Messages.OK
     ) {
       return
@@ -112,7 +111,7 @@ internal class RegexEditorConfigurable :
 
     ApplicationManager.getApplication().invokeLater {
       if (regexModelTableEditor != null) {
-        (regexModelTableEditor ?: return@invokeLater).reset(settings.regexGroupModels.regexModels)
+        (regexModelTableEditor ?: return@invokeLater).reset(settings.getAllRegexGroupModels().regexModels)
       }
     }
   }
@@ -125,7 +124,7 @@ internal class RegexEditorConfigurable :
   private fun loadData() {
     ApplicationManager.getApplication().invokeLater {
       if (regexModelTableEditor != null) {
-        (regexModelTableEditor ?: return@invokeLater).reset(settings.regexGroupModels.regexModels)
+        (regexModelTableEditor ?: return@invokeLater).reset(settings.getAllRegexGroupModels().regexModels)
       }
     }
   }
@@ -144,19 +143,8 @@ internal class RegexEditorConfigurable :
 
   override fun apply() {
     super.apply()
-    settingsClone.regexGroupModels = getRegexGroups()
-
-    settings.apply(settingsClone)
-    RegexGroupsSettings.instance.fireChanged()
-  }
-
-  private fun getRegexGroups(): RegexGroupModels {
-    assert(regexModelTableEditor != null)
-
-    val allItems = regexModelTableEditor!!.getModel().allItems
-    val models = RegexGroupModels()
-    models.regexModels = allItems.toMutableList()
-    return models
+    val allItems = regexModelTableEditor?.getModel()?.allItems ?: emptyList()
+    settings.saveModels(allItems)
   }
 
   override fun dispose() {

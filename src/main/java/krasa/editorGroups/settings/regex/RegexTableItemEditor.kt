@@ -8,7 +8,7 @@ import krasa.editorGroups.model.RegexGroupModel
 /** Editor for the [RegexGroupModel] table cells. */
 class RegexTableItemEditor : DialogItemEditor<RegexGroupModel>, CollectionItemEditor<RegexGroupModel> {
   /**
-   * Apply changes to the edited item
+   * Apply changes to the edited item.
    *
    * @param oldItem the item to modify
    * @param newItem the changes
@@ -16,7 +16,7 @@ class RegexTableItemEditor : DialogItemEditor<RegexGroupModel>, CollectionItemEd
   override fun applyEdited(oldItem: RegexGroupModel, newItem: RegexGroupModel): Unit = oldItem.apply(newItem)
 
   /**
-   * Duplicate an item
+   * Duplicate an item.
    *
    * @param item the [RegexGroupModel]
    * @param forInPlaceEditing if editing in place (true)
@@ -33,13 +33,16 @@ class RegexTableItemEditor : DialogItemEditor<RegexGroupModel>, CollectionItemEd
       isEnabled = item.isEnabled
       touched = item.touched
       priority = item.priority
+      color = item.color
+      isFromExtension = item.isFromExtension
+      extensionId = item.extensionId
     }
 
     return regexModel
   }
 
   /**
-   * Edits an item
+   * Edits an item.
    *
    * @param item the [RegexGroupModel]
    * @param mutator a function to mutate the item
@@ -54,7 +57,7 @@ class RegexTableItemEditor : DialogItemEditor<RegexGroupModel>, CollectionItemEd
   override fun getItemClass(): Class<out RegexGroupModel> = RegexGroupModel::class.java
 
   /**
-   * Do not allow editing empty items
+   * Do not allow editing empty items.
    *
    * @param item the [RegexGroupModel]
    * @return true if editable
@@ -62,7 +65,7 @@ class RegexTableItemEditor : DialogItemEditor<RegexGroupModel>, CollectionItemEd
   override fun isEditable(item: RegexGroupModel): Boolean = !item.isEmpty
 
   /**
-   * Determines what constitutes an empty [RegexGroupModel]
+   * Determines what constitutes an empty [RegexGroupModel].
    *
    * @param item the [RegexGroupModel]
    * @return true if empty
