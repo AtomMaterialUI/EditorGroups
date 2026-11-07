@@ -1,5 +1,10 @@
 package krasa.editorGroups.settings.regex
 
+import com.intellij.icons.AllIcons
+import com.intellij.openapi.actionSystem.ActionUpdateThread
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.util.Comparing
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.ui.*
@@ -8,6 +13,7 @@ import com.intellij.ui.table.TableView
 import com.intellij.util.containers.ContainerUtil
 import com.intellij.util.ui.*
 import com.intellij.util.ui.table.ComboBoxTableCellEditor
+import krasa.editorGroups.messages.EditorGroupsBundle.message
 import krasa.editorGroups.model.RegexGroupModel
 import krasa.editorGroups.model.Scope
 import java.awt.Dimension
@@ -77,6 +83,41 @@ class RegexTableModelEditor(
     toolbarDecorator = ToolbarDecorator.createDecorator(table, this)
     toolbarDecorator.disableUpDownActions()
 
+    val duplicateAction = object : AnAction(message("action.duplicate"), message("action.duplicate.description"), AllIcons.Actions.Copy) {
+      override fun actionPerformed(e: AnActionEvent) = duplicateSelected()
+
+      override fun update(e: AnActionEvent) {
+        e.presentation.isEnabled = table.selectedObject != null
+      }
+
+      override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.EDT
+    }
+
+    toolbarDecorator.addExtraAction(duplicateAction)
+    toolbarDecorator.setRemoveActionUpdater { canRemoveSelected() }
+
+    val actionGroup = DefaultActionGroup().apply {
+      add(duplicateAction)
+
+      add(object : AnAction(message("action.remove"), message("action.remove.description"), AllIcons.General.Remove) {
+        override fun actionPerformed(e: AnActionEvent) {
+          if (!canRemoveSelected()) return
+          val selectedIndex = table.selectedRow
+          if (selectedIndex >= 0) {
+            model.removeRow(selectedIndex)
+          }
+        }
+
+        override fun update(e: AnActionEvent) {
+          e.presentation.isEnabled = canRemoveSelected()
+        }
+
+        override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.EDT
+      })
+    }
+
+    PopupHandler.installPopupMenu(table, actionGroup, "RegexTablePopup")
+
     // Search and filter table
     if (searchTextField != null) {
       table.addKeyListener(object : KeyAdapter() {
@@ -104,7 +145,13 @@ class RegexTableModelEditor(
     searchTextField: SearchTextField,
   ) : this(emptyList<RegexGroupModel>(), columns, itemEditor, emptyText, searchTextField)
 
-  /** Inits the unfiltered list (before any search) */
+  /** Whether the selected group can be removed (extension groups cannot). */
+  private fun canRemoveSelected(): Boolean {
+    val selected = table.selectedObject
+    return selected != null && !selected.isFromExtension
+  }
+
+  /** Inits the unfiltered list (before any search). */
   private fun initUnfilteredList() {
     myList.clear()
     myList.addAll(model.items)
@@ -129,7 +176,7 @@ class RegexTableModelEditor(
   }
 
   /**
-   * Convenience method to disable/enable the table
+   * Convenience method to disable/enable the table.
    *
    * @param isEnabled new enabled state
    * @return self
@@ -146,7 +193,40 @@ class RegexTableModelEditor(
   fun createComponent(): JComponent = toolbarDecorator.createPanel()
 
   /**
-   * Apply changes to elements
+   * Duplicates the currently selected [RegexGroupModel] into a new custom
+   * user group.
+   */
+  fun duplicateSelected() {
+    val selected = table.selectedObject ?: return
+    val copy = selected.copy().apply {
+      myName = uniqueCopyName(selected.myName)
+      isFromExtension = false
+      extensionId = null
+      touched = true
+    }
+
+    // addRow already adds the copy to both lists; only refresh the filtered view
+    model.addRow(copy)
+    filterTable()
+
+    val newIndex = model.filteredItems.indexOf(copy)
+    if (newIndex >= 0) {
+      table.selectionModel.setSelectionInterval(newIndex, newIndex)
+      TableUtil.scrollSelectionToVisible(table)
+    }
+  }
+
+  /** Returns a copy name not already used by any group, e.g. `Foo (Copy 2)`. */
+  private fun uniqueCopyName(name: String): String {
+    val existingNames = myList.mapTo(HashSet()) { it.myName }
+    val suffix = message("copy")
+    return generateSequence(1) { it + 1 }
+      .map { if (it == 1) "$name ($suffix)" else "$name ($suffix $it)" }
+      .first { it !in existingNames }
+  }
+
+  /**
+   * Apply changes to elements.
    *
    * @return the new items after changes
    */
@@ -170,14 +250,14 @@ class RegexTableModelEditor(
   }
 
   /**
-   * Return the model items
+   * Return the model items.
    *
    * @return the model items
    */
   override fun getItems(): List<RegexGroupModel?> = model.items
 
   /**
-   * Resets the [model]'s items
+   * Resets the [model]'s items.
    *
    * @param originalItems the elements
    */
@@ -202,7 +282,8 @@ class RegexTableModelEditor(
   }
 
   /**
-   * Overrides [silentlyReplaceItem] - we need to modify the unfiltered list when a change occurs since we're working on the filtered list
+   * Overrides [silentlyReplaceItem] - we need to modify the unfiltered list
+   * when a change occurs since we're working on the filtered list.
    *
    * @param oldItem item changed (in the filtered list)
    * @param newItem new item to insert
@@ -212,19 +293,21 @@ class RegexTableModelEditor(
     super.silentlyReplaceItem(oldItem, newItem, index)
     newItem.touched = true
     // silently replace item in unfiltered list
+    // match by identity first: names are not guaranteed to be unique
     val items = model.allItems
-    val allItemsIndex = items.indexOfFirst { it.name == newItem.name }
-    val i = when (allItemsIndex) {
-      -1   -> ContainerUtil.indexOfIdentity(items, oldItem)
-      else -> allItemsIndex
-    }
-    items[i] = newItem
+    val i = ContainerUtil.indexOfIdentity(items, oldItem)
+      .takeIf { it >= 0 }
+      ?: items.indexOfFirst { it.name == newItem.name }
+    if (i >= 0) items[i] = newItem
   }
 
   inner class RegexGroupsTableModel(columnNames: Array<ColumnInfo<*, *>>, items: List<RegexGroupModel>) :
     ListTableModel<RegexGroupModel>(columnNames, items) {
 
-    /** This contains all items, before any filter is applied. This is also what will be persisted. */
+    /**
+     * This contains all items, before any filter is applied. This is also what
+     * will be persisted.
+     */
     var allItems: MutableList<RegexGroupModel> = items.toMutableList()
 
     /** This is the currently filtered table. */
@@ -235,14 +318,14 @@ class RegexTableModelEditor(
       }
 
     /**
-     * We display only the filtered items
+     * We display only the filtered items.
      *
      * @return the [filteredItems]
      */
     override fun getItems(): MutableList<RegexGroupModel> = filteredItems
 
     /**
-     * When items are set, we reset the table's items
+     * When items are set, we reset the table's items.
      *
      * @param items
      */
@@ -253,7 +336,7 @@ class RegexTableModelEditor(
     }
 
     /**
-     * Remove a row @unused
+     * Remove a row @unused.
      *
      * @param index
      */
@@ -271,7 +354,7 @@ class RegexTableModelEditor(
     }
 
     /**
-     * Set the value at the given row and column using the [helper]
+     * Set the value at the given row and column using the [helper].
      *
      * @param aValue value to set
      * @param rowIndex row number
@@ -307,11 +390,12 @@ class RegexTableModelEditor(
     @Suppress("unused") // NON-NLS
     private enum class Columns(val index: Int) {
       ENABLED(0),
-      TOUCHED(1),
-      NAME(2),
-      REGEX(3),
-      SCOPE(4),
-      NOT_COMPARING_GROUPS(5),
+      EXTENSION(1),
+      TOUCHED(2),
+      NAME(3),
+      REGEX(4),
+      SCOPE(5),
+      NOT_COMPARING_GROUPS(6),
     }
   }
 }
