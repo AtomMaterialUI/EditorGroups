@@ -30,7 +30,6 @@ import com.intellij.ui.scale.JBUIScale
 import com.intellij.util.ui.ColumnInfo
 import krasa.editorGroups.messages.EditorGroupsBundle.message
 import krasa.editorGroups.model.RegexGroupModel
-import krasa.editorGroups.support.IconResolver
 import java.awt.Component
 import javax.swing.Icon
 import javax.swing.JLabel
@@ -75,7 +74,7 @@ class ExtensionColumnInfo : ColumnInfo<RegexGroupModel, Icon?>(message("RegexEdi
 
   override fun valueOf(item: RegexGroupModel): Icon? {
     if (!item.isFromExtension) return null
-    return IconResolver.resolve(item.iconPath) ?: AllIcons.Nodes.Plugin
+    return item.icon ?: AllIcons.Nodes.Plugin
   }
 
   override fun getRenderer(item: RegexGroupModel?): TableCellRenderer = renderer
