@@ -64,5 +64,5 @@ class NotComparingGroupsEditableColumnInfo(private val parent: Disposable, priva
     return StatefulValidatingCellEditor(cellEditor, parent)
   }
 
-  override fun isCellEditable(item: RegexGroupModel): Boolean = editable
+  override fun isCellEditable(item: RegexGroupModel): Boolean = editable && !item.isFromExtension
 }

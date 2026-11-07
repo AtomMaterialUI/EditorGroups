@@ -87,5 +87,5 @@ class PatternEditableColumnInfo(private val parent: Disposable, private val edit
    * @param item the [RegexGroupModel]
    * @return true if editable
    */
-  override fun isCellEditable(item: RegexGroupModel): Boolean = editable
+  override fun isCellEditable(item: RegexGroupModel): Boolean = editable && !item.isFromExtension
 }

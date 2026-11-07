@@ -33,6 +33,7 @@ internal class RegexEditorConfigurable :
 
   private val columns = arrayOf<ColumnInfo<*, *>>(
     EnabledColumnInfo(),
+    ExtensionColumnInfo(),
     TouchedColumnInfo(),
     NameEditableColumnInfo(parent = this, editable = true),
     PatternEditableColumnInfo(parent = this, editable = true),

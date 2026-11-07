@@ -70,7 +70,7 @@ class ScopeEditableColumnInfo(private val editable: Boolean) :
 
   override fun getRenderer(item: RegexGroupModel): TableCellRenderer = ScopeCellRenderer()
 
-  override fun isCellEditable(item: RegexGroupModel): Boolean = editable
+  override fun isCellEditable(item: RegexGroupModel): Boolean = editable && !item.isFromExtension
 
   override fun getColumnClass(): Class<*> = Scope::class.java
 

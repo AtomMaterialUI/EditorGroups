@@ -82,5 +82,5 @@ class NameEditableColumnInfo(private val parent: Disposable, private val editabl
       }
     }
 
-  override fun isCellEditable(item: RegexGroupModel): Boolean = editable
+  override fun isCellEditable(item: RegexGroupModel): Boolean = editable && !item.isFromExtension
 }
