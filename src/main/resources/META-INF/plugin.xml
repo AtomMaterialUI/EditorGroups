@@ -65,7 +65,8 @@
                     optionalType="true"
                     scope="CURRENT_FOLDER"
                     priority="0"
-                    enabled="true"/>
+                    enabled="true"
+                    description="Groups related Spring and Java/Kotlin files by entity name, e.g. UserService, UserController, UserRepository, UserDTO"/>
         <!--suppress PluginXmlValidity -->
         <regexGroup id="krasa.editorGroups.preset.nestjs"
                     name="NestJS Architecture"
@@ -74,7 +75,8 @@
                     extensions="ts, js"
                     scope="CURRENT_FOLDER"
                     priority="0"
-                    enabled="true"/>
+                    enabled="true"
+                    description="Groups NestJS files by feature name, e.g. auth.controller, auth.service, auth.module, auth.guard"/>
         <!--suppress PluginXmlValidity -->
         <regexGroup id="krasa.editorGroups.preset.vue"
                     name="Vue Components"
@@ -84,7 +86,8 @@
                     optionalType="true"
                     scope="CURRENT_FOLDER"
                     priority="0"
-                    enabled="true"/>
+                    enabled="true"
+                    description="Groups Vue component files by name, e.g. UserCard.vue, UserCard.spec.ts, UserCard.stories.ts"/>
         <!--suppress PluginXmlValidity -->
         <regexGroup id="krasa.editorGroups.preset.rails"
                     name="Ruby on Rails"
@@ -94,7 +97,8 @@
                     optionalType="true"
                     scope="CURRENT_FOLDER"
                     priority="0"
-                    enabled="true"/>
+                    enabled="true"
+                    description="Groups Ruby on Rails files by resource name, e.g. user.rb, users_controller.rb, user_mailer.rb, user_spec.rb"/>
         <!--suppress PluginXmlValidity -->
         <regexGroup id="krasa.editorGroups.preset.laravel"
                     name="Laravel &amp; PHP"
@@ -104,7 +108,8 @@
                     optionalType="true"
                     scope="CURRENT_FOLDER"
                     priority="0"
-                    enabled="true"/>
+                    enabled="true"
+                    description="Groups Laravel and PHP files by model name, e.g. OrderController, OrderRepository, OrderRequest, OrderPolicy"/>
         <!--suppress PluginXmlValidity -->
         <regexGroup id="krasa.editorGroups.preset.django"
                     name="Django / Python Modules"
@@ -114,7 +119,8 @@
                     optionalType="true"
                     scope="CURRENT_FOLDER"
                     priority="0"
-                    enabled="true"/>
+                    enabled="true"
+                    description="Groups Django and Python module files by feature name, e.g. payment_models, payment_views, payment_serializers"/>
         <!--suppress PluginXmlValidity -->
         <regexGroup id="krasa.editorGroups.preset.go"
                     name="Go Sources, Tests &amp; Platforms"
@@ -124,7 +130,8 @@
                     optionalType="true"
                     scope="CURRENT_FOLDER"
                     priority="0"
-                    enabled="true"/>
+                    enabled="true"
+                    description="Groups Go source files by package name, e.g. server.go, server_test.go, server_mock.go, server_linux.go"/>
         <!--suppress PluginXmlValidity -->
         <regexGroup id="krasa.editorGroups.preset.rust"
                     name="Rust Modules &amp; Tests"
@@ -134,7 +141,8 @@
                     optionalType="true"
                     scope="CURRENT_FOLDER"
                     priority="0"
-                    enabled="true"/>
+                    enabled="true"
+                    description="Groups Rust module files by crate name, e.g. parser.rs, parser_test.rs, parser_bench.rs"/>
         <!--suppress PluginXmlValidity -->
         <regexGroup id="krasa.editorGroups.preset.webComponents"
                     name="Web Components"
@@ -143,7 +151,8 @@
                     extensions="ts, js, jsx, tsx, html, css, scss, sass, less"
                     scope="CURRENT_FOLDER"
                     priority="0"
-                    enabled="true"/>
+                    enabled="true"
+                    description="Groups web component files by name, e.g. user-profile.component.ts, user-profile.component.html, user-profile.styles.scss"/>
         <!--suppress PluginXmlValidity -->
         <regexGroup id="krasa.editorGroups.preset.tests"
                     name="Unit &amp; Integration Tests"
@@ -154,7 +163,8 @@
                     optionalType="true"
                     scope="CURRENT_FOLDER"
                     priority="0"
-                    enabled="true"/>
+                    enabled="true"
+                    description="Groups source files with their corresponding test files, e.g. PaymentProcessor.kt with PaymentProcessorTest.kt"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">

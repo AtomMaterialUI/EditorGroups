@@ -49,6 +49,9 @@ class RegexGroupEP : PluginAware {
   @Attribute("enabled")
   var enabled: Boolean = true
 
+  @Attribute("description")
+  var description: String? = null
+
   override fun setPluginDescriptor(pluginDescriptor: PluginDescriptor) {
     this.pluginDescriptor = pluginDescriptor
   }
@@ -95,6 +98,7 @@ class RegexGroupEP : PluginAware {
       priority = priority,
       isFromExtension = true,
       extensionId = id ?: name ?: groupName,
+      description = description,
     )
   }
 

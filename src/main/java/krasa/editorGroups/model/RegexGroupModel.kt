@@ -20,6 +20,7 @@ class RegexGroupModel : BaseState() {
   var touched: Boolean = false
   var isFromExtension: Boolean = false
   var extensionId: String? = null
+  var description: String? = null
   var name: String? by string()
   var regex: String? by string()
   var notComparingGroups: String? by string()
@@ -93,6 +94,7 @@ class RegexGroupModel : BaseState() {
     myColor = other.myColor
     isFromExtension = other.isFromExtension
     extensionId = other.extensionId
+    description = other.description
   }
 
   fun matches(name: String): Boolean = try {
@@ -112,6 +114,7 @@ class RegexGroupModel : BaseState() {
     color = myColor,
     isFromExtension = isFromExtension,
     extensionId = extensionId,
+    description = description,
   )
 
   fun isComparingGroup(groupIndex: Int): Boolean {
@@ -192,6 +195,7 @@ class RegexGroupModel : BaseState() {
       priority: Int = 0,
       isFromExtension: Boolean = false,
       extensionId: String? = null,
+      description: String? = null,
     ): RegexGroupModel {
       val model = RegexGroupModel()
       model.isEnabled = isEnabled
@@ -203,6 +207,7 @@ class RegexGroupModel : BaseState() {
       model.priority = priority
       model.isFromExtension = isFromExtension
       model.extensionId = extensionId
+      model.description = description
 
       return model
     }
