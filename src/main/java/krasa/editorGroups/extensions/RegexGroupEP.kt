@@ -3,6 +3,7 @@ package krasa.editorGroups.extensions
 import com.intellij.openapi.extensions.ExtensionPointName
 import com.intellij.openapi.extensions.PluginAware
 import com.intellij.openapi.extensions.PluginDescriptor
+import com.intellij.openapi.util.IconLoader
 import com.intellij.util.xmlb.annotations.Attribute
 import krasa.editorGroups.model.RegexGroupModel
 import krasa.editorGroups.model.Scope
@@ -102,7 +103,11 @@ class RegexGroupEP : PluginAware {
       isFromExtension = true,
       extensionId = id ?: name ?: groupName,
       description = description,
-      iconPath = icon,
+      icon = icon?.takeIf { it.isNotBlank() }?.let {
+        runCatching {
+          IconLoader.findIcon(it, pluginDescriptor?.pluginClassLoader ?: javaClass.classLoader)
+        }.getOrNull()
+      },
     )
   }
 
