@@ -52,6 +52,9 @@ class RegexGroupEP : PluginAware {
   @Attribute("description")
   var description: String? = null
 
+  @Attribute("icon")
+  var icon: String? = null
+
   override fun setPluginDescriptor(pluginDescriptor: PluginDescriptor) {
     this.pluginDescriptor = pluginDescriptor
   }
@@ -99,6 +102,7 @@ class RegexGroupEP : PluginAware {
       isFromExtension = true,
       extensionId = id ?: name ?: groupName,
       description = description,
+      iconPath = icon,
     )
   }
 

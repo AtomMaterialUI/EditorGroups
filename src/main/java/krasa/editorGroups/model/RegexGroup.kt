@@ -7,6 +7,7 @@ import com.intellij.openapi.vfs.VirtualFile
 import krasa.editorGroups.icons.EditorGroupsIcons
 import krasa.editorGroups.messages.EditorGroupsBundle.message
 import krasa.editorGroups.settings.EditorGroupsSettings
+import krasa.editorGroups.support.IconResolver
 import java.awt.Color
 import java.util.regex.Matcher
 import javax.swing.Icon
@@ -65,9 +66,10 @@ class RegexGroup(
     get() = regexGroupModel.myColor
 
   constructor(model: RegexGroupModel, folder: VirtualFile?) : this(model, folder, emptyList<Link>(), null)
+
   constructor(model: RegexGroupModel, folder: VirtualFile?, fileName: String?) : this(model, folder, emptyList<Link>(), fileName)
 
-  override fun icon(): Icon = EditorGroupsIcons.regex
+  override fun icon(): Icon = IconResolver.resolve(regexGroupModel.iconPath) ?: EditorGroupsIcons.regex
 
   override fun switchTitle(project: Project): String? {
     val doShowSize = EditorGroupsSettings.instance.isShowSize
@@ -100,7 +102,7 @@ class RegexGroup(
 
   override fun hashCode(): Int {
     var result = regexGroupModel.hashCode()
-    result = 31 * result + (folder?.hashCode() ?: 0)
+    result = 31 * result + folder.hashCode()
     return result
   }
 

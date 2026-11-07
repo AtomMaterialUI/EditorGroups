@@ -37,6 +37,7 @@ class RegexTableItemEditor : DialogItemEditor<RegexGroupModel>, CollectionItemEd
       isFromExtension = item.isFromExtension
       extensionId = item.extensionId
       description = item.description
+      iconPath = item.iconPath
     }
 
     return regexModel
