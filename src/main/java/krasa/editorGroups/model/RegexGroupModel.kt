@@ -18,6 +18,8 @@ import java.util.regex.Pattern
 class RegexGroupModel : BaseState() {
   var isEnabled: Boolean by property(true)
   var touched: Boolean = false
+  var isFromExtension: Boolean = false
+  var extensionId: String? = null
   var name: String? by string()
   var regex: String? by string()
   var notComparingGroups: String? by string()
@@ -82,6 +84,8 @@ class RegexGroupModel : BaseState() {
     myScope = other.myScope
     priority = other.priority
     myColor = other.myColor
+    isFromExtension = other.isFromExtension
+    extensionId = other.extensionId
   }
 
   fun matches(name: String): Boolean = try {
@@ -98,7 +102,9 @@ class RegexGroupModel : BaseState() {
     scope = myScope,
     notComparingGroups = myNotComparingGroups,
     priority = priority,
-    color = myColor
+    color = myColor,
+    isFromExtension = isFromExtension,
+    extensionId = extensionId,
   )
 
   fun isComparingGroup(groupIndex: Int): Boolean {
@@ -108,7 +114,8 @@ class RegexGroupModel : BaseState() {
   }
 
   /**
-   * Split the not comparing groups string and convert it to an int array. Ex: 1,2 -> [1,2] or 1,,2 -> [1,-1,2]
+   * Split the not comparing groups string and convert it to an int array.
+   * Ex: 1,2 -> [1,2] or 1,,2 -> [1,-1,2].
    *
    * @return the int array
    */
@@ -143,7 +150,7 @@ class RegexGroupModel : BaseState() {
       |color=$myColor
       |priority=$priority
     }
-  """.trimMargin()
+    """.trimMargin()
 
   companion object {
     const val V0: String = "v0"
@@ -151,14 +158,19 @@ class RegexGroupModel : BaseState() {
     const val V2: String = "v2"
 
     /**
-     * Creates and returns a `RegexGroupModel` instance with specified parameters.
+     * Creates and returns a `RegexGroupModel` instance with specified
+     * parameters.
      *
      * @param name the optional regex name (default is generated unique name)
-     * @param isEnabled indicates whether the group is enabled (default is true)
+     * @param isEnabled indicates whether the group is enabled (default is
+     *    true)
      * @param regex the regular expression pattern to be used (default is ".*")
-     * @param scope the scope in which the regular expression is evaluated (default is `Scope.CURRENT_FOLDER`)
-     * @param notComparingGroups a comma-separated string representing groups that are not compared (default is "")
-     * @param color the color to be used for the group (default is a random color based on the name)
+     * @param scope the scope in which the regular expression is evaluated
+     *    (default is `Scope.CURRENT_FOLDER`)
+     * @param notComparingGroups a comma-separated string representing groups
+     *    that are not compared (default is "")
+     * @param color the color to be used for the group (default is a random
+     *    color based on the name)
      * @param priority the priority level for the regex group (default is 0)
      * @return a configured instance of `RegexGroupModel`
      */
@@ -170,7 +182,9 @@ class RegexGroupModel : BaseState() {
       scope: Scope = Scope.CURRENT_FOLDER,
       notComparingGroups: String = "",
       color: Color = generateColor(name),
-      priority: Int = 0
+      priority: Int = 0,
+      isFromExtension: Boolean = false,
+      extensionId: String? = null,
     ): RegexGroupModel {
       val model = RegexGroupModel()
       model.isEnabled = isEnabled
@@ -180,6 +194,8 @@ class RegexGroupModel : BaseState() {
       model.myNotComparingGroups = notComparingGroups
       model.myColor = color
       model.priority = priority
+      model.isFromExtension = isFromExtension
+      model.extensionId = extensionId
 
       return model
     }
@@ -188,10 +204,13 @@ class RegexGroupModel : BaseState() {
     fun generateUniqueName(): String = "RegexGroup-${UUID.randomUUID()}"
 
     /**
-     * Deserializes a given string into a `RegexGroupModel` object based on the specific format versions.
+     * Deserializes a given string into a `RegexGroupModel` object based on the
+     * specific format versions.
      *
-     * @param str The string to be deserialized. It must begin with a version identifier ("v0" or "v1").
-     * @return The deserialized `RegexGroupModel` if the string format is valid, or `null` if the format is not supported or an error occurs
+     * @param str The string to be deserialized. It must begin with a version
+     *    identifier ("v0" or "v1").
+     * @return The deserialized `RegexGroupModel` if the string format is
+     *    valid, or `null` if the format is not supported or an error occurs
      *    during deserialization.
      */
     @JvmStatic
@@ -206,7 +225,7 @@ class RegexGroupModel : BaseState() {
 
             return from(
               regex = regex,
-              scope = Scope.valueOf(scope)
+              scope = Scope.valueOf(scope),
             )
           }
 
@@ -216,7 +235,7 @@ class RegexGroupModel : BaseState() {
             return from(
               regex = regex,
               scope = Scope.valueOf(scope),
-              notComparingGroups = notComparingGroups
+              notComparingGroups = notComparingGroups,
             )
           }
 
@@ -234,7 +253,7 @@ class RegexGroupModel : BaseState() {
               scope = Scope.valueOf(scope),
               notComparingGroups = notComparingGroups,
               color = ColorUtil.fromHex(color),
-              priority = priority.toInt()
+              priority = priority.toInt(),
             )
           }
 
