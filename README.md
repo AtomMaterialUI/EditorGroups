@@ -36,6 +36,40 @@ Show all files and line bookmarks from your bookmark groups.
 
 Define regex groups and group all files matching the regex.
 
+#### Predefined Regex Groups
+
+The plugin comes with preset regex groups for popular frameworks and patterns, each with its own icon displayed in the settings table, the editor tab panel, and the group switcher:
+
+- **Spring** — Spring Boot components
+- **NestJS** — NestJS controllers, services, modules
+- **Vue** — Vue components, views, stores
+- **Rails** — Ruby on Rails models, controllers, views
+- **Django** — Django models, views, templates
+- **Laravel** — Laravel controllers, models, migrations
+- **Go** — Go structs and interfaces
+- **Rust** — Rust modules and tests
+- **HTML** — Web components
+- **Tests** — Source files with their test counterparts
+
+You can enable or disable each preset, adjust its regex pattern, scope, and other settings in the Regex Groups table.
+
+#### Setting Icons
+
+Each regex group can have its own icon.
+
+**Picking an icon**: In the Regex Groups settings table, click the icon column for any group to browse and select an SVG file from your disk. Clear the field to fall back to the default icon.
+
+**Extension point**: Plugin developers contributing predefined groups via the `krasa.editorGroups.regexGroup` extension point can set an icon using the `icon` attribute:
+
+```xml
+<regexGroup id="my.group"
+            name="My Group"
+            regex=".*"
+            icon="/icons/my-icon.svg"/>
+```
+
+The `icon` value is a classpath resource path (starting with `/`) or an absolute disk path to an SVG file. Icons are clamped to 16×16 to preserve layout.
+
 ### Group Switcher
 
 Quickly switch between groups using the group switcher.
