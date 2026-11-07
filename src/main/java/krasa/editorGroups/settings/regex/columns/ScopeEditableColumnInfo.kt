@@ -34,11 +34,14 @@ import javax.swing.table.DefaultTableCellRenderer
 import javax.swing.table.TableCellEditor
 import javax.swing.table.TableCellRenderer
 
-/** Editable column info for [krasa.editorGroups.model.RegexGroupModel] scope. */
+/**
+ * Editable column info for [krasa.editorGroups.model.RegexGroupModel]
+ * scope.
+ */
 class ScopeEditableColumnInfo(private val editable: Boolean) :
   EditableColumnInfo<RegexGroupModel, Scope>(message("RegexEditorConfigurable.columns.scope")) {
   /**
-   * The value of the column is the scope
+   * The value of the column is the scope.
    *
    * @param item the [RegexGroupModel]
    * @return [RegexGroupModel] scope
@@ -46,7 +49,7 @@ class ScopeEditableColumnInfo(private val editable: Boolean) :
   override fun valueOf(item: RegexGroupModel): Scope = item.myScope
 
   /**
-   * Set [RegexGroupModel]'s scope
+   * Set [RegexGroupModel]'s scope.
    *
    * @param item the [RegexGroupModel]
    * @param value the new scope
@@ -57,7 +60,7 @@ class ScopeEditableColumnInfo(private val editable: Boolean) :
   }
 
   /**
-   * Creates an editor for the scope, with empty value validation
+   * Creates an editor for the scope, with empty value validation.
    *
    * @param item the [RegexGroupModel]
    * @return the [TableCellEditor]
@@ -73,6 +76,8 @@ class ScopeEditableColumnInfo(private val editable: Boolean) :
   override fun isCellEditable(item: RegexGroupModel): Boolean = editable && !item.isFromExtension
 
   override fun getColumnClass(): Class<*> = Scope::class.java
+
+  override fun getWidth(table: JTable?): Int = 120
 
   class ScopeCellRenderer : DefaultTableCellRenderer(), ListCellRenderer<Scope> {
     private val renderer = DefaultListCellRenderer()

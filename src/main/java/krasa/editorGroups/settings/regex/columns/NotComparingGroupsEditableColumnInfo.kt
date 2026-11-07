@@ -29,13 +29,17 @@ import com.intellij.ui.components.fields.ExtendableTextField
 import com.intellij.util.ui.table.TableModelEditor.EditableColumnInfo
 import krasa.editorGroups.messages.EditorGroupsBundle.message
 import krasa.editorGroups.model.RegexGroupModel
+import javax.swing.JTable
 import javax.swing.table.TableCellEditor
 
-/** Editable column info for [krasa.editorGroups.model.RegexGroupModel] notComparingGroups. */
+/**
+ * Editable column info for [krasa.editorGroups.model.RegexGroupModel]
+ * notComparingGroups.
+ */
 class NotComparingGroupsEditableColumnInfo(private val parent: Disposable, private val editable: Boolean) :
   EditableColumnInfo<RegexGroupModel, String>(message("RegexEditorConfigurable.columns.notComparingGroups")) {
   /**
-   * The value of the column is the notComparingGroups
+   * The value of the column is the notComparingGroups.
    *
    * @param item the [RegexGroupModel]
    * @return [RegexGroupModel] notComparingGroups
@@ -43,7 +47,7 @@ class NotComparingGroupsEditableColumnInfo(private val parent: Disposable, priva
   override fun valueOf(item: RegexGroupModel): String = item.myNotComparingGroups
 
   /**
-   * Set [RegexGroupModel]'s scope
+   * Set [RegexGroupModel]'s scope.
    *
    * @param item the [RegexGroupModel]
    * @param value the new scope
@@ -54,7 +58,7 @@ class NotComparingGroupsEditableColumnInfo(private val parent: Disposable, priva
   }
 
   /**
-   * Creates an editor for the scope, with empty value validation
+   * Creates an editor for the scope, with empty value validation.
    *
    * @param item the [RegexGroupModel]
    * @return the [TableCellEditor]
@@ -65,4 +69,6 @@ class NotComparingGroupsEditableColumnInfo(private val parent: Disposable, priva
   }
 
   override fun isCellEditable(item: RegexGroupModel): Boolean = editable && !item.isFromExtension
+
+  override fun getWidth(table: JTable?): Int = 100
 }
