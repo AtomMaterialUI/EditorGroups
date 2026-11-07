@@ -28,7 +28,7 @@ class RegexTableModelEditor(
   columns: Array<ColumnInfo<*, *>>,
   itemEditor: CollectionItemEditor<RegexGroupModel>,
   emptyText: String,
-  val searchTextField: SearchTextField?,
+  val searchTextField: SearchTextField? = null,
 ) : CollectionModelEditor<RegexGroupModel, CollectionItemEditor<RegexGroupModel>?>(itemEditor) {
   private val table: TableView<RegexGroupModel>
   private val toolbarDecorator: ToolbarDecorator
@@ -135,7 +135,6 @@ class RegexTableModelEditor(
         override fun textChanged(e: DocumentEvent) = filterTable()
       })
     }
-
   }
 
   constructor(
@@ -144,6 +143,14 @@ class RegexTableModelEditor(
     emptyText: String,
     searchTextField: SearchTextField,
   ) : this(emptyList<RegexGroupModel>(), columns, itemEditor, emptyText, searchTextField)
+
+  /** Adds a listener that is notified whenever the table selection changes. */
+  fun addSelectionListener(listener: (RegexGroupModel?) -> Unit) {
+    table.selectionModel.addListSelectionListener { event ->
+      if (event?.valueIsAdjusting == true) return@addListSelectionListener
+      listener(table.selectedObject)
+    }
+  }
 
   /** Whether the selected group can be removed (extension groups cannot). */
   private fun canRemoveSelected(): Boolean {

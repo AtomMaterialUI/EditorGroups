@@ -6,10 +6,13 @@ import com.intellij.openapi.options.BoundSearchableConfigurable
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.Messages
 import com.intellij.ui.SearchTextField
+import com.intellij.ui.components.JBLabel
 import com.intellij.ui.dsl.builder.Align
 import com.intellij.ui.dsl.builder.AlignX
 import com.intellij.ui.dsl.builder.panel
+import com.intellij.util.concurrency.annotations.RequiresBlockingContext
 import com.intellij.util.ui.ColumnInfo
+import com.intellij.util.ui.UIUtil
 import krasa.editorGroups.messages.EditorGroupsBundle.message
 import krasa.editorGroups.settings.regex.columns.*
 import javax.swing.JComponent
@@ -30,6 +33,7 @@ internal class RegexEditorConfigurable :
   private var regexSearch: SearchTextField = SearchTextField()
   private lateinit var regexModelTable: JComponent
   private var regexModelTableEditor: RegexTableModelEditor? = null
+  private val descriptionLabel = JBLabel()
 
   private val columns = arrayOf<ColumnInfo<*, *>>(
     EnabledColumnInfo(),
@@ -75,6 +79,15 @@ internal class RegexEditorConfigurable :
       }
 
       row {
+        cell(descriptionLabel)
+          .align(Align.FILL)
+          .resizableColumn()
+          .applyToComponent {
+            foreground = UIUtil.getContextHelpForeground()
+          }
+      }
+
+      row {
         button(message("clear.regex.groups")) { resetSettings() }
           .resizableColumn()
           .align(AlignX.RIGHT)
@@ -85,6 +98,7 @@ internal class RegexEditorConfigurable :
   }
 
   /** Create the file icons. */
+  @RequiresBlockingContext
   private fun createTable() {
     val itemEditor = RegexTableItemEditor()
     regexModelTableEditor = RegexTableModelEditor(
@@ -92,7 +106,12 @@ internal class RegexEditorConfigurable :
       itemEditor,
       message("no.regex.models"),
       regexSearch,
-    )
+    ).apply {
+      addSelectionListener { selected ->
+        val description = selected?.description?.takeIf { it.isNotBlank() }
+        descriptionLabel.text = description.orEmpty()
+      }
+    }
     regexModelTable = (regexModelTableEditor ?: return).createComponent()
   }
 
