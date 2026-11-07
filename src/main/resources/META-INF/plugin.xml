@@ -55,6 +55,33 @@
                         dynamic="true"/>
     </extensionPoints>
 
+    <extensions defaultExtensionNs="krasa.editorGroups">
+        <!--suppress PluginXmlValidity -->
+        <regexGroup id="krasa.editorGroups.preset.mvc"
+                    name="MVC Architecture"
+                    regex="(.*)(Service|Controller|Repository|DTO|Resource|Impl)\.(kt|java|groovy)"
+                    ignoredGroups="2,3"
+                    scope="CURRENT_FOLDER"
+                    priority="0"
+                    enabled="true"/>
+        <!--suppress PluginXmlValidity -->
+        <regexGroup id="krasa.editorGroups.preset.webComponents"
+                    name="Web Components"
+                    regex="(.*)\.(component|service|module|styles?|template|spec|test)\.(ts|js|jsx|tsx|html|css|scss|sass|less)"
+                    ignoredGroups="2,3"
+                    scope="CURRENT_FOLDER"
+                    priority="0"
+                    enabled="true"/>
+        <!--suppress PluginXmlValidity -->
+        <regexGroup id="krasa.editorGroups.preset.tests"
+                    name="Unit &amp; Integration Tests"
+                    regex="(.*)(Test|Spec|IT|TestCase)\.(kt|java|groovy|scala|py|go|rs|ts|js)"
+                    ignoredGroups="2"
+                    scope="CURRENT_FOLDER"
+                    priority="0"
+                    enabled="true"/>
+    </extensions>
+
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="Editor Groups" displayType="BALLOON" bundle="messages.EditorGroupsBundle"
                            key="notification.group.editor.groups"/>
