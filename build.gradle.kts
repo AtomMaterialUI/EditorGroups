@@ -1,14 +1,13 @@
 @file:Suppress("HardCodedStringLiteral")
 
-import com.github.javaparser.printer.concretesyntaxmodel.CsmElement.token
 import io.gitlab.arturbosch.detekt.Detekt
-import org.gradle.internal.execution.caching.CachingState.enabled
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun properties(key: String): String = providers.gradleProperty(key).get()
+
 fun environment(key: String): Provider<String> = providers.environmentVariable(key)
 
 plugins {
@@ -128,7 +127,13 @@ intellijPlatform {
 
   publishing {
     token = environment("INTELLIJ_PUBLISH_TOKEN")
-    channels = listOf(pluginVersion.split('-').getOrElse(1) { "default" }.split('.').first())
+    channels = listOf(
+      pluginVersion
+        .split('-')
+        .getOrElse(1) { "default" }
+        .split('.')
+        .first(),
+    )
   }
 
   signing {
