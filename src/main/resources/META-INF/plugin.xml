@@ -160,7 +160,7 @@
                     scope="CURRENT_FOLDER"
                     priority="0"
                     enabled="true"
-                    icon="/icons/regex/webcomponents.svg"
+                    icon="/icons/regex/html.svg"
                     description="Groups web component files by name, e.g. user-profile.component.ts, user-profile.component.html, user-profile.styles.scss"/>
         <!--suppress PluginXmlValidity -->
         <regexGroup id="krasa.editorGroups.preset.tests"
@@ -173,7 +173,7 @@
                     scope="CURRENT_FOLDER"
                     priority="0"
                     enabled="true"
-                    icon="/icons/regex/tests.svg"
+                    icon="/icons/regex/test.svg"
                     description="Groups source files with their corresponding test files, e.g. PaymentProcessor.kt with PaymentProcessorTest.kt"/>
     </extensions>
 
