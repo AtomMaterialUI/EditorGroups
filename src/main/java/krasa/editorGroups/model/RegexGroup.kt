@@ -50,10 +50,12 @@ class RegexGroup(
       val resultFileName = fileName
 
       if (resultFileName != null) {
-        referenceMatcher = regexGroupModel.regexPattern?.matcher(resultFileName) ?: return null
+        val pattern = regexGroupModel.regexPattern ?: return null
+        referenceMatcher = pattern.matcher(resultFileName)
         val matches = referenceMatcher.matches()
         if (!matches) {
-          thisLogger().error("$resultFileName does not match $regexGroupModel") // NON-NLS
+          thisLogger().warn("$resultFileName does not match $regexGroupModel") // NON-NLS
+          return null
         }
       }
       return referenceMatcher

@@ -29,7 +29,8 @@ open class RegexFileResolver(private val project: Project) {
       links.add(currentFile)
     }
 
-    val groupMatcher = regexGroupModel.regexPattern!!.matcher("")
+    val pattern = regexGroupModel.regexPattern ?: return Link.fromVirtualFiles(links, project)
+    val groupMatcher = pattern.matcher("")
     val projectFileIndex = ProjectFileIndex.getInstance(project)
     val folders = regexGroup.getScopes(project)
 
@@ -118,7 +119,8 @@ open class RegexFileResolver(private val project: Project) {
 
     if (referenceMatcher == null) return true
 
-    return (1..matcher.groupCount()).all { index ->
+    val minGroups = minOf(referenceMatcher.groupCount(), matcher.groupCount())
+    return (1..minGroups).all { index ->
       when {
         regexGroupModel.isComparingGroup(index) -> referenceMatcher.group(index) == matcher.group(index)
         else                                    -> true

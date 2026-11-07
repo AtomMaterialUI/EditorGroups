@@ -66,7 +66,14 @@ class RegexGroupModel : BaseState() {
   @Transient
   var regexPattern: Pattern? = null
     get() {
-      if (field == null) field = myRegex.let { Pattern.compile(it) }
+      if (field == null) {
+        field = try {
+          myRegex.takeIf { it.isNotBlank() }?.let { Pattern.compile(it) }
+        } catch (e: Exception) {
+          thisLogger().warn("Invalid regex '$myRegex': ${e.message}")
+          null
+        }
+      }
       return field
     }
 
