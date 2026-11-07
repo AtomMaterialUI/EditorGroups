@@ -22,60 +22,60 @@ object EditorGroupsUI {
     defaultTheme.underlineHeight
   )
 
-  fun inactiveUnderlineColor(): Color = JBColor.namedColor(
-    "EditorGroupsTabs.inactiveUnderlineColor",
-    defaultTheme.inactiveUnderlineColor
-  )
+  fun inactiveUnderlineColor(): Color {
+    val named = UIManager.getColor("EditorGroupsTabs.inactiveUnderlineColor")
+    return named ?: defaultTheme.inactiveUnderlineColor
+  }
 
-  fun borderColor(): Color = JBColor.namedColor(
-    "EditorGroupsTabs.borderColor",
-    defaultTheme.borderColor
-  )
+  fun borderColor(): Color {
+    val named = UIManager.getColor("EditorGroupsTabs.borderColor")
+    return named ?: defaultTheme.borderColor
+  }
 
-  fun background(): Color = JBColor.namedColor(
-    "EditorGroupsTabs.background",
-    defaultTheme.background
-  )
+  fun background(): Color {
+    val named = UIManager.getColor("EditorGroupsTabs.background")
+    return named ?: defaultTheme.background
+  }
 
-  fun hoverBackground(): Color = JBColor.namedColor(
-    "EditorGroupsTabs.hoverBackground",
-    defaultTheme.hoverBackground
-  )
+  fun hoverBackground(): Color {
+    val named = UIManager.getColor("EditorGroupsTabs.hoverBackground")
+    return named ?: defaultTheme.hoverBackground
+  }
 
-  fun hoverInactiveBackground(): Color = JBColor.namedColor(
-    "EditorGroupsTabs.hoverInactiveBackground",
-    defaultTheme.hoverInactiveBackground
-  )
+  fun hoverInactiveBackground(): Color {
+    val named = UIManager.getColor("EditorGroupsTabs.hoverInactiveBackground")
+    return named ?: defaultTheme.hoverInactiveBackground
+  }
 
-  fun hoverSelectedBackground(): Color = JBColor.namedColor(
-    "EditorGroupsTabs.hoverSelectedBackground",
-    defaultTheme.hoverSelectedBackground
-  )
+  fun hoverSelectedBackground(): Color {
+    val named = UIManager.getColor("EditorGroupsTabs.hoverSelectedBackground")
+    return named ?: defaultTheme.hoverSelectedBackground
+  }
 
-  fun hoverSelectedInactiveBackground(): Color = JBColor.namedColor(
-    "EditorGroupsTabs.hoverSelectedInactiveBackground",
-    defaultTheme.hoverSelectedInactiveBackground
-  )
+  fun hoverSelectedInactiveBackground(): Color {
+    val named = UIManager.getColor("EditorGroupsTabs.hoverSelectedInactiveBackground")
+    return named ?: defaultTheme.hoverSelectedInactiveBackground
+  }
 
-  fun hoverBorderColor(): Color = JBColor.namedColor(
-    "EditorGroupsTabs.hoverBorderColor",
-    defaultTheme.hoverBorderColor
-  )
+  fun hoverBorderColor(): Color {
+    val named = UIManager.getColor("EditorGroupsTabs.hoverBorderColor")
+    return named ?: defaultTheme.hoverBorderColor
+  }
 
-  fun underlinedTabBackground(): Color = JBColor.namedColor(
-    "EditorGroupsTabs.underlinedTabBackground",
-    defaultTheme.underlinedTabBackground
-  )
+  fun underlinedTabBackground(): Color {
+    val named = UIManager.getColor("EditorGroupsTabs.underlinedTabBackground")
+    return named ?: defaultTheme.underlinedTabBackground
+  }
 
-  fun underlinedTabForeground(): Color = JBColor.namedColor(
-    "EditorGroupsTabs.underlinedTabForeground",
-    defaultTheme.underlinedTabForeground
-  )
+  fun underlinedTabForeground(): Color {
+    val named = UIManager.getColor("EditorGroupsTabs.underlinedTabForeground")
+    return named ?: defaultTheme.underlinedTabForeground
+  }
 
-  fun underlinedTabBorderColor(): Color = JBColor.namedColor(
-    "EditorGroupsTabs.underlinedTabBorderColor",
-    defaultTheme.underlinedTabBorderColor
-  )
+  fun underlinedTabBorderColor(): Color {
+    val named = UIManager.getColor("EditorGroupsTabs.underlinedTabBorderColor")
+    return named ?: defaultTheme.underlinedTabBorderColor
+  }
 
   fun underlineArc(): Int = JBUI.getInt(
     "EditorGroupsTabs.underlineArc",
