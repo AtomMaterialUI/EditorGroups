@@ -57,26 +57,101 @@
 
     <extensions defaultExtensionNs="krasa.editorGroups">
         <!--suppress PluginXmlValidity -->
-        <regexGroup id="krasa.editorGroups.preset.mvc"
-                    name="MVC Architecture"
-                    regex="(.*)(Service|Controller|Repository|DTO|Resource|Impl)\.(kt|java|groovy)"
-                    ignoredGroups="2,3"
+        <regexGroup id="krasa.editorGroups.preset.spring"
+                    name="Spring &amp; Java/Kotlin Services"
+                    template="{name}{type}.{ext}"
+                    types="Service, ServiceImpl, Controller, Repository, Dao, DTO, Request, Response, Vo, Entity, Model, Mapper, Converter, Config, Configuration, Properties, Event, Listener, Handler, Exception"
+                    extensions="kt, java, groovy"
+                    optionalType="true"
+                    scope="CURRENT_FOLDER"
+                    priority="0"
+                    enabled="true"/>
+        <!--suppress PluginXmlValidity -->
+        <regexGroup id="krasa.editorGroups.preset.nestjs"
+                    name="NestJS Architecture"
+                    template="{name}.{type}.{ext}"
+                    types="controller, service, module, entity, dto, resolver, guard, interceptor, pipe, middleware, gateway, spec, controller.spec, service.spec"
+                    extensions="ts, js"
+                    scope="CURRENT_FOLDER"
+                    priority="0"
+                    enabled="true"/>
+        <!--suppress PluginXmlValidity -->
+        <regexGroup id="krasa.editorGroups.preset.vue"
+                    name="Vue Components"
+                    template="{name}{type}.{ext}"
+                    types=".component, .view, .store, .composable, .spec, .test, .stories, .types"
+                    extensions="vue, ts, js, html, css, scss, sass, less"
+                    optionalType="true"
+                    scope="CURRENT_FOLDER"
+                    priority="0"
+                    enabled="true"/>
+        <!--suppress PluginXmlValidity -->
+        <regexGroup id="krasa.editorGroups.preset.rails"
+                    name="Ruby on Rails"
+                    template="{name}{type}.{ext}"
+                    types="_controller, _helper, _mailer, _service, _spec, _test"
+                    extensions="rb, html.erb, erb, json.jbuilder"
+                    optionalType="true"
+                    scope="CURRENT_FOLDER"
+                    priority="0"
+                    enabled="true"/>
+        <!--suppress PluginXmlValidity -->
+        <regexGroup id="krasa.editorGroups.preset.laravel"
+                    name="Laravel &amp; PHP"
+                    template="{name}{type}.{ext}"
+                    types="Controller, Repository, Service, Request, Resource, Policy, Seeder, Factory, Event, Listener, Mail, Notification, Test, Model"
+                    extensions="php, blade.php"
+                    optionalType="true"
+                    scope="CURRENT_FOLDER"
+                    priority="0"
+                    enabled="true"/>
+        <!--suppress PluginXmlValidity -->
+        <regexGroup id="krasa.editorGroups.preset.django"
+                    name="Django / Python Modules"
+                    template="{name}{type}.{ext}"
+                    types="_models, _views, _urls, _admin, _forms, _serializers, _signals, _services, _tests, _test"
+                    extensions="py"
+                    optionalType="true"
+                    scope="CURRENT_FOLDER"
+                    priority="0"
+                    enabled="true"/>
+        <!--suppress PluginXmlValidity -->
+        <regexGroup id="krasa.editorGroups.preset.go"
+                    name="Go Sources, Tests &amp; Platforms"
+                    template="{name}{type}.{ext}"
+                    types="_test, _mock, _gen, _generated, _linux, _windows, _darwin, _amd64, _arm64"
+                    extensions="go"
+                    optionalType="true"
+                    scope="CURRENT_FOLDER"
+                    priority="0"
+                    enabled="true"/>
+        <!--suppress PluginXmlValidity -->
+        <regexGroup id="krasa.editorGroups.preset.rust"
+                    name="Rust Modules &amp; Tests"
+                    template="{name}{type}.{ext}"
+                    types="_test, _tests, _bench, _benches, _derive, _sys, _ffi, _impl"
+                    extensions="rs"
+                    optionalType="true"
                     scope="CURRENT_FOLDER"
                     priority="0"
                     enabled="true"/>
         <!--suppress PluginXmlValidity -->
         <regexGroup id="krasa.editorGroups.preset.webComponents"
                     name="Web Components"
-                    regex="(.*)\.(component|service|module|styles?|template|spec|test)\.(ts|js|jsx|tsx|html|css|scss|sass|less)"
-                    ignoredGroups="2,3"
+                    template="{name}.{type}.{ext}"
+                    types="component, service, module, styles, style, template, spec, test, stories"
+                    extensions="ts, js, jsx, tsx, html, css, scss, sass, less"
                     scope="CURRENT_FOLDER"
                     priority="0"
                     enabled="true"/>
         <!--suppress PluginXmlValidity -->
         <regexGroup id="krasa.editorGroups.preset.tests"
                     name="Unit &amp; Integration Tests"
-                    regex="(.*)(Test|Spec|IT|TestCase)\.(kt|java|groovy|scala|py|go|rs|ts|js)"
+                    template="{name}{type}.{ext}"
+                    types="Test, Spec, IT, TestCase, _test, _spec, .test, .spec"
+                    extensions="kt, java, groovy, scala, py, go, rs, ts, js"
                     ignoredGroups="2"
+                    optionalType="true"
                     scope="CURRENT_FOLDER"
                     priority="0"
                     enabled="true"/>
