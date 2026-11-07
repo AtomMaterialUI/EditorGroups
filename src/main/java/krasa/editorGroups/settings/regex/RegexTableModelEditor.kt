@@ -397,13 +397,12 @@ class RegexTableModelEditor(
     @Suppress("unused") // NON-NLS
     private enum class Columns(val index: Int) {
       ENABLED(0),
-      EXTENSION(1),
-      ICON(2),
-      TOUCHED(3),
-      NAME(4),
-      REGEX(5),
-      SCOPE(6),
-      NOT_COMPARING_GROUPS(7),
+      ICON(1),
+      TOUCHED(2),
+      NAME(3),
+      REGEX(4),
+      SCOPE(5),
+      NOT_COMPARING_GROUPS(6),
     }
   }
 }

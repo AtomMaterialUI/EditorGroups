@@ -37,7 +37,6 @@ internal class RegexEditorConfigurable :
 
   private val columns = arrayOf<ColumnInfo<*, *>>(
     EnabledColumnInfo(),
-    ExtensionColumnInfo(),
     IconEditableColumnInfo(),
     TouchedColumnInfo(),
     NameEditableColumnInfo(parent = this, editable = true),

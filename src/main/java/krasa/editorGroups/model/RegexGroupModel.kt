@@ -4,6 +4,7 @@ import com.intellij.openapi.components.BaseState
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.ui.ColorUtil
 import com.intellij.util.xmlb.annotations.Tag
+import krasa.editorGroups.support.IconPathLoader
 import krasa.editorGroups.support.fromHex
 import krasa.editorGroups.support.generateColor
 import krasa.editorGroups.support.toHex
@@ -22,9 +23,22 @@ class RegexGroupModel : BaseState() {
   var isFromExtension: Boolean = false
   var extensionId: String? = null
   var description: String? = null
+  var iconPath: String? by string()
+  var name: String? by string()
+
+  /** Icon of the group: explicitly set, or lazily loaded from [iconPath]. */
   @Transient
   var icon: Icon? = null
-  var name: String? by string()
+    get() = field ?: IconPathLoader.load(iconPath).also { field = it }
+
+  /** Icon path as edited in the UI. Changing it invalidates the icon. */
+  var myIconPath: String
+    get() = iconPath ?: ""
+    set(value) {
+      iconPath = value.takeIf { it.isNotBlank() }
+      icon = null
+    }
+
   var regex: String? by string()
   var notComparingGroups: String? by string()
   var scope: Scope by enum(Scope.CURRENT_FOLDER)
@@ -98,6 +112,7 @@ class RegexGroupModel : BaseState() {
     isFromExtension = other.isFromExtension
     extensionId = other.extensionId
     description = other.description
+    iconPath = other.iconPath
     icon = other.icon
   }
 
@@ -120,6 +135,7 @@ class RegexGroupModel : BaseState() {
     extensionId = extensionId,
     description = description,
     icon = icon,
+    iconPath = iconPath,
   )
 
   fun isComparingGroup(groupIndex: Int): Boolean {
@@ -202,6 +218,7 @@ class RegexGroupModel : BaseState() {
       extensionId: String? = null,
       description: String? = null,
       icon: Icon? = null,
+      iconPath: String? = null,
     ): RegexGroupModel {
       val model = RegexGroupModel()
       model.isEnabled = isEnabled
@@ -214,6 +231,7 @@ class RegexGroupModel : BaseState() {
       model.isFromExtension = isFromExtension
       model.extensionId = extensionId
       model.description = description
+      model.iconPath = iconPath
       model.icon = icon
 
       return model
