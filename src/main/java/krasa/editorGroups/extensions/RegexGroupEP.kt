@@ -8,6 +8,7 @@ import krasa.editorGroups.model.RegexGroupModel
 import krasa.editorGroups.model.Scope
 import krasa.editorGroups.support.fromHex
 import krasa.editorGroups.support.generateColor
+import krasa.editorGroups.support.toValueList
 
 class RegexGroupEP : PluginAware {
   private var pluginDescriptor: PluginDescriptor? = null
@@ -53,85 +54,30 @@ class RegexGroupEP : PluginAware {
   }
 
   fun buildRegexAndIgnoredGroups(): Pair<String, String> {
-    if (!regex.isNullOrBlank()) {
-      return Pair(regex!!, ignoredGroups ?: "")
-    }
+    regex?.takeIf { it.isNotBlank() }?.let { return it to (ignoredGroups ?: "") }
 
-    val typeList = types?.split(",", ";")?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
-    val extList = extensions?.split(",", ";")?.map { it.trim().removePrefix(".") }?.filter { it.isNotEmpty() } ?: emptyList()
+    val typeList = types.toValueList()
+    val extList = extensions.toValueList(removeLeadingDot = true)
 
     if (typeList.isEmpty() && extList.isEmpty() && template.isNullOrBlank()) {
-      return Pair(".*", ignoredGroups ?: "")
+      return ".*" to (ignoredGroups ?: "")
     }
 
-    val effectiveTemplate = when {
-      !template.isNullOrBlank() -> template!!
+    val effectiveTemplate = template?.takeIf { it.isNotBlank() } ?: when {
       typeList.isNotEmpty() && extList.isNotEmpty() -> "{name}{type}.{ext}"
-      extList.isNotEmpty() -> "{name}.{ext}"
-      else -> "{name}{type}"
+      extList.isNotEmpty()                          -> "{name}.{ext}"
+      else                                          -> "{name}{type}"
     }
 
-    val sortedTypes = typeList.sortedByDescending { it.length }
-    val typesPattern = if (sortedTypes.isNotEmpty()) {
-      val joined = sortedTypes.joinToString("|") { Regex.escape(it) }
-      if (optionalType) "($joined)?" else "($joined)"
-    } else {
-      ""
-    }
+    val compiled = RegexTemplateCompiler.compile(
+      template = effectiveTemplate,
+      types = typeList,
+      extensions = extList,
+      optionalType = optionalType,
+      ignoredGroups = ignoredGroups,
+    )
 
-    val sortedExts = extList.sortedByDescending { it.length }
-    val extsPattern = if (sortedExts.isNotEmpty()) {
-      val joined = sortedExts.joinToString("|") { Regex.escape(it) }
-      "($joined)"
-    } else {
-      ""
-    }
-
-    val tokenName = "\u0001"
-    val tokenType = "\u0002"
-    val tokenExt = "\u0003"
-
-    val hasName = effectiveTemplate.contains("{name}")
-    val hasType = effectiveTemplate.contains("{type}")
-    val hasExt = effectiveTemplate.contains("{ext}")
-
-    val raw = effectiveTemplate
-      .replace("{name}", tokenName)
-      .replace("{type}", tokenType)
-      .replace("{ext}", tokenExt)
-
-    val escapedBuilder = StringBuilder()
-    for (ch in raw) {
-      when (ch) {
-        '\u0001', '\u0002', '\u0003' -> escapedBuilder.append(ch)
-        '.', '^', '$', '*', '+', '?', '(', ')', '[', ']', '{', '}', '|', '\\' -> escapedBuilder.append('\\').append(ch)
-        else -> escapedBuilder.append(ch)
-      }
-    }
-
-    val resultPattern = escapedBuilder.toString()
-      .replace(tokenName, "(.*)")
-      .replace(tokenType, typesPattern)
-      .replace(tokenExt, extsPattern)
-
-    val computedIgnoredGroups = if (ignoredGroups != null) {
-      ignoredGroups!!
-    } else {
-      val ignored = mutableListOf<Int>()
-      var groupIdx = 1
-      if (hasName) groupIdx++
-      if (hasType && sortedTypes.isNotEmpty()) {
-        ignored.add(groupIdx)
-        groupIdx++
-      }
-      if (hasExt && sortedExts.isNotEmpty()) {
-        ignored.add(groupIdx)
-        groupIdx++
-      }
-      ignored.joinToString(",")
-    }
-
-    return Pair(resultPattern, computedIgnoredGroups)
+    return compiled.pattern to compiled.ignoredGroups
   }
 
   fun toModel(): RegexGroupModel {

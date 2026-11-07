@@ -30,7 +30,8 @@ import javax.swing.Icon
 const val EDITOR_GROUP_TAB_MENU: String = "krasa.editorGroups.EditorGroupsTabPopupMenu"
 
 /**
- * Retrieves the presentable name from a given path, e.g. the last element of the path, without the extension.
+ * Retrieves the presentable name from a given path, e.g. the last element
+ * of the path, without the extension.
  *
  * @param path the path from which to retrieve the presentable name
  * @return the presentable name
@@ -53,11 +54,14 @@ fun toPresentableName(path: String): String {
 }
 
 /**
- * Removes the extension from the given [result] if it ends with [separator].
+ * Removes the extension from the given [result] if it ends with
+ * [separator].
  *
  * @param result The string from which to remove the extension.
- * @param separator The separator used to check if the [result] ends with it.
- * @return The [result] without the extension if it ends with [separator], otherwise the [result] itself.
+ * @param separator The separator used to check if the [result] ends with
+ *    it.
+ * @return The [result] without the extension if it ends with [separator],
+ *    otherwise the [result] itself.
  */
 fun cutExtension(result: String, separator: String): String {
   val withoutExtension = FileUtil.getNameWithoutExtension(result)
@@ -84,7 +88,7 @@ fun getFileIcon(path: String?, project: Project?): Icon {
 }
 
 /**
- * Try to resolve a file from a path, optionally from the current file
+ * Try to resolve a file from a path, optionally from the current file.
  *
  * @param path
  * @param currentFile
@@ -132,7 +136,7 @@ private fun findFileByPath(path: String, currentFile: VirtualFile?, refresh: Boo
 }
 
 /**
- * Resolves a file by its path in the whole file system
+ * Resolves a file by its path in the whole file system.
  *
  * @param path the path of the file to resolve
  * @return the resolved VirtualFile, or null if the file is not found
@@ -140,15 +144,17 @@ private fun findFileByPath(path: String, currentFile: VirtualFile?, refresh: Boo
 fun getFileByPath(path: String): VirtualFile? = getFileByPath(path, null)
 
 /**
- * Retrieves a VirtualFile instance corresponding to the given link's file path.
+ * Retrieves a VirtualFile instance corresponding to the given link's file
+ * path.
  *
  * @param link The Link object containing the file path.
- * @return The VirtualFile found at the specified path, or null if no file is found.
+ * @return The VirtualFile found at the specified path, or null if no file
+ *    is found.
  */
 fun getFileByPath(link: Link): VirtualFile? = getFileByPath(link.path)
 
 /**
- * Resolves a file by its path in the whole file system
+ * Resolves a file by its path in the whole file system.
  *
  * @param path the path of the file to resolve
  * @return the resolved VirtualFile, or null if the file is not found
@@ -169,7 +175,10 @@ fun getVirtualFileByAbsolutePath(path: String): VirtualFile? = if (File(path).ex
 fun getFileFromTextEditor(textEditor: FileEditor): VirtualFile =
   unwrapPreview(textEditor.file) ?: throw RuntimeException("File not found for $textEditor")
 
-/** Return the file after trying to unwrap it from another plugin's wrap, if necessary. */
+/**
+ * Return the file after trying to unwrap it from another plugin's wrap, if
+ * necessary.
+ */
 fun unwrapPreview(file: VirtualFile?): VirtualFile? {
   var result = file ?: return null
 
@@ -192,7 +201,8 @@ fun unwrapPreview(file: VirtualFile?): VirtualFile? {
  *
  * @param file the file to get the canonical path of
  * @return the canonical path of the given file
- * @throws RuntimeException if an IOException occurs while getting the canonical path
+ * @throws RuntimeException if an IOException occurs while getting the
+ *    canonical path
  */
 fun getCanonicalPath(file: File): String = try {
   file.canonicalPath
@@ -233,14 +243,16 @@ fun isBlank(cs: CharSequence?): Boolean {
  * Retrieves the settings associated with the specified component.
  *
  * @param component The component for which settings are to be retrieved.
- * @return The settings associated with the component, or null if no settings are found.
+ * @return The settings associated with the component, or null if no
+ *    settings are found.
  */
 fun getSettings(component: Component): Settings? = Settings.KEY.getData(DataManager.getInstance().getDataContext(component))
 
 /**
  * Navigates to the settings page associated with a specific component.
  *
- * @param component The component for which the settings page is to be navigated.
+ * @param component The component for which the settings page is to be
+ *    navigated.
  * @param name The name of the settings page to navigate to.
  */
 fun navigateToSettingsPage(component: Component, name: String) {
@@ -264,3 +276,15 @@ fun getNameWithoutTypeAndExt(name: CharSequence): CharSequence {
     else                  -> name.subSequence(0, secondToLastIndex)
   }
 }
+
+fun String?.toValueList(removeLeadingDot: Boolean = false): List<String> = this
+  ?.split(",", ";")
+  ?.map { value ->
+    value.trim().let {
+      when {
+        removeLeadingDot -> it.removePrefix(".")
+        else             -> it
+      }
+    }
+  }?.filter { it.isNotEmpty() }
+  ?: emptyList()
