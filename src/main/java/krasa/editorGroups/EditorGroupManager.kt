@@ -1,6 +1,7 @@
 package krasa.editorGroups
 
 import com.intellij.ide.ui.UISettings
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.thisLogger
@@ -8,11 +9,12 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.LogicalPosition
 import com.intellij.openapi.editor.ScrollType
 import com.intellij.openapi.fileEditor.FileEditor
+import com.intellij.openapi.fileEditor.FileEditorComposite
+import com.intellij.openapi.fileEditor.FileEditorOpenMode
+import com.intellij.openapi.fileEditor.FileEditorOpenRequest
 import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx
 import com.intellij.openapi.fileEditor.impl.EditorWindow
 import com.intellij.openapi.fileEditor.impl.EditorWindowHolder
-import com.intellij.openapi.fileEditor.impl.FileEditorManagerImpl.OpenMode
-import com.intellij.openapi.fileEditor.impl.FileEditorOpenOptions
 import com.intellij.openapi.fileEditor.impl.text.TextEditorImpl
 import com.intellij.openapi.project.DumbService.Companion.isDumb
 import com.intellij.openapi.project.IndexNotReadyException
@@ -107,10 +109,10 @@ class EditorGroupManager(private val project: Project) {
 
         if (requestedOrDisplayedGroup.isValid &&
           (
-            requestedOrDisplayedGroup is AutoGroup ||
-              requestedOrDisplayedGroup.containsLink(project, currentFile) ||
-              requestedOrDisplayedGroup.isOwner(currentFilePath)
-            )
+              requestedOrDisplayedGroup is AutoGroup ||
+                  requestedOrDisplayedGroup.containsLink(project, currentFile) ||
+                  requestedOrDisplayedGroup.isOwner(currentFilePath)
+              )
         ) {
           result = requestedOrDisplayedGroup
         }
@@ -229,10 +231,10 @@ class EditorGroupManager(private val project: Project) {
 
         if (requestedOrDisplayedGroup.isValid &&
           (
-            requestedOrDisplayedGroup is AutoGroup ||
-              requestedOrDisplayedGroup.containsLink(project, currentFile) ||
-              requestedOrDisplayedGroup.isOwner(currentFilePath)
-            )
+              requestedOrDisplayedGroup is AutoGroup ||
+                  requestedOrDisplayedGroup.containsLink(project, currentFile) ||
+                  requestedOrDisplayedGroup.isOwner(currentFilePath)
+              )
         ) {
           result = requestedOrDisplayedGroup
         }
@@ -335,9 +337,11 @@ class EditorGroupManager(private val project: Project) {
   }
 
   /**
-   * Retrieves and returns a sorted list of editor groups associated with the given file.
+   * Retrieves and returns a sorted list of editor groups associated with the
+   * given file.
    *
-   * @param file The virtual file for which to find the associated editor groups.
+   * @param file The virtual file for which to find the associated editor
+   *    groups.
    * @return A sorted list of editor groups for the specified file.
    */
   fun getGroups(file: VirtualFile): List<EditorGroup> = cache.findGroups(file).sortedWith(COMPARATOR)
@@ -372,8 +376,9 @@ class EditorGroupManager(private val project: Project) {
   /**
    * Stops the current switching operation.
    *
-   * This method schedules a task on the AWT event queue using `SwingUtilities.invokeLater`. Once the focus has settled down, it sets the
-   * `switching` flag to `false` and logs the action.
+   * This method schedules a task on the AWT event queue using
+   * `SwingUtilities.invokeLater`. Once the focus has settled down,
+   * it sets the `switching` flag to `false` and logs the action.
    */
   fun stopSwitching() {
     SwingUtilities.invokeLater {
@@ -383,10 +388,13 @@ class EditorGroupManager(private val project: Project) {
   }
 
   /**
-   * Retrieves and clears the current switch request if it matches the provided file.
+   * Retrieves and clears the current switch request if it matches the
+   * provided file.
    *
-   * @param file The file that is being checked against the current switch request.
-   * @return The matching switch request if the provided file matches the switching file, otherwise null.
+   * @param file The file that is being checked against the current switch
+   *    request.
+   * @return The matching switch request if the provided file matches the
+   *    switching file, otherwise null.
    */
   fun getAndClearSwitchingRequest(file: VirtualFile): SwitchRequest? {
     val switchingFile = switchRequest?.fileToOpen
@@ -408,7 +416,8 @@ class EditorGroupManager(private val project: Project) {
    * Retrieves the switching request of a provided file.
    *
    * @param file The virtual file to check against the switching request.
-   * @return The [SwitchRequest] if the specified file matches; otherwise, null.
+   * @return The [SwitchRequest] if the specified file matches; otherwise,
+   *    null.
    */
   fun getSwitchingRequest(file: VirtualFile): SwitchRequest? {
     val switchingFile = switchRequest?.fileToOpen
@@ -417,9 +426,11 @@ class EditorGroupManager(private val project: Project) {
   }
 
   /**
-   * Checks if there is an active request to switch or if switching is currently in progress.
+   * Checks if there is an active request to switch or if switching is
+   * currently in progress.
    *
-   * @return true if there is a switch request or switching is in progress, false otherwise.
+   * @return true if there is a switch request or switching is in progress,
+   *    false otherwise.
    */
   fun isSwitching(): Boolean {
     thisLogger().debug("isSwitching switchRequest=$switchRequest, switching=$switching")
@@ -427,7 +438,10 @@ class EditorGroupManager(private val project: Project) {
     return switchRequest != null || switching
   }
 
-  /** Resets the switching mechanism by clearing any current switching requests and stopping the switching process. */
+  /**
+   * Resets the switching mechanism by clearing any current switching
+   * requests and stopping the switching process.
+   */
   fun resetSwitching() {
     clearSwitchingRequest()
     stopSwitching()
@@ -437,33 +451,40 @@ class EditorGroupManager(private val project: Project) {
   suspend fun initCache(): Unit = panelRefresher.initCache()
 
   /**
-   * Retrieves the background color associated with the specified VirtualFile.
+   * Retrieves the background color associated with the specified
+   * VirtualFile.
    *
    * @param file the VirtualFile for which to retrieve the color
-   * @return the Color object representing the background color of the VirtualFile, or null if not found
+   * @return the Color object representing the background color of the
+   *    VirtualFile, or null if not found
    */
   @Suppress("unused")
   fun getBgColor(file: VirtualFile): Color? = cache.getEditorGroupForColor(file).bgColor
 
   /**
-   * Retrieves the foreground color associated with the specified VirtualFile.
+   * Retrieves the foreground color associated with the specified
+   * VirtualFile.
    *
    * @param file the VirtualFile for which to retrieve the color
-   * @return the Color object representing the foreground color of the VirtualFile, or null if not found
+   * @return the Color object representing the foreground color of the
+   *    VirtualFile, or null if not found
    */
   @Suppress("unused")
   fun getFgColor(file: VirtualFile): Color? = cache.getEditorGroupForColor(file).fgColor
 
   /**
-   * Opens a specified file in the editor, with various options for window and tab management.
+   * Opens a specified file in the editor, with various options for window
+   * and tab management.
    *
    * @param groupPanel The [EditorGroupPanel]
    * @param fileToOpen The file to be opened.
-   * @param line The line number to navigate to within the file, or null to open without specific line focus.
+   * @param line The line number to navigate to within the file, or null to
+   *    open without specific line focus.
    * @param newWindow Whether to open the file in a new window.
    * @param newTab Whether to open the file in a new tab.
    * @param split The split orientation for the editor if applicable.
-   * @return A Result object indicating the outcome of the open operation, or null if the operation fails.
+   * @return A Result object indicating the outcome of the open operation, or
+   *    null if the operation fails.
    */
   fun openGroupFile(
     groupPanel: EditorGroupPanel,
@@ -505,13 +526,18 @@ class EditorGroupManager(private val project: Project) {
   /**
    * Opens a specified virtual file in the editor.
    *
-   * @param fileToOpen The virtual file to open, specified by its absolute path.
-   * @param newWindow A boolean flag indicating if the file should be opened in a new window.
-   * @param newTab A boolean flag indicating if the file should be opened in a new tab.
-   * @param split The splitter configuration indicating how the window should be split.
+   * @param fileToOpen The virtual file to open, specified by its absolute
+   *    path.
+   * @param newWindow A boolean flag indicating if the file should be opened
+   *    in a new window.
+   * @param newTab A boolean flag indicating if the file should be opened in
+   *    a new tab.
+   * @param split The splitter configuration indicating how the window should
+   *    be split.
    * @param group The editor group in which the file should be opened.
    * @param current The currently active virtual file, may be null.
-   * @return A Result object indicating the success or failure of the operation.
+   * @return A Result object indicating the success or failure of the
+   *    operation.
    */
   fun openFile(
     fileToOpen: VirtualFile,
@@ -533,15 +559,16 @@ class EditorGroupManager(private val project: Project) {
   )
 
   /**
-   * Opens the provided file in the editor, considering various conditions such as current file, window, group, splitters, and switching
-   * requests.
+   * Opens the provided file in the editor, considering various conditions
+   * such as current file, window, group, splitters, and switching requests.
    *
    * @param currentWindow The current editor window parameter.
    * @param currentFile The currently opened file.
    * @param fileToOpen The file that needs to be opened.
    * @param line The line number to scroll to once the file is opened.
    * @param group The editor group to which this file belongs.
-   * @param newWindow Flag indicating if the file should be opened in a new window.
+   * @param newWindow Flag indicating if the file should be opened in a new
+   *    window.
    * @param newTab Flag indicating if the file should be opened in a new tab.
    * @param splitters The splitters object indicating the split orientation.
    * @param switchRequest The request for switching editor context.
@@ -632,78 +659,129 @@ class EditorGroupManager(private val project: Project) {
           newWindow                              -> {
             thisLogger().debug("openFileInNewWindow fileToOpen = $fileToOpen")
 
-            val fileEditors = manager.openFile(
-              fileToOpen,
-              window = null,
-              options = FileEditorOpenOptions(requestFocus = true, openMode = OpenMode.NEW_WINDOW)
-            )
-            scroll(line, *fileEditors.allEditors.toTypedArray())
+            val request = FileEditorOpenRequest.withFocus(true).withOpenMode(FileEditorOpenMode.NEW_WINDOW)
 
-            if (fileEditors.allEditors.isEmpty()) {
-              thisLogger().debug("no editors opened..")
-              resetSwitching()
-            }
+            manager.requestOpenFile(fileToOpen, request)
+              .whenComplete { composite, error ->
+                runOnEdt {
+                  if (error != null || composite == null || composite.allEditors.isEmpty()) {
+                    error?.let { thisLogger().warn("Unable to open $fileToOpen in a new window", it) }
+                    thisLogger().debug("no editors opened..")
+                    resetSwitching()
+                  } else {
+                    scroll(line, *composite.allEditors.toTypedArray())
+                  }
+                }
+              }
           }
 
           else                                   -> {
-            val reuseNotModifiedTabs = UISettings.getInstance().reuseNotModifiedTabs
-            try {
-              thisLogger().debug("openFile $fileToOpen")
-              // Temporarily disable the reuse not modified tabs to force open in a new tab
-              if (newTab) UISettings.getInstance().reuseNotModifiedTabs = false
+            val uiSettings = UISettings.getInstance()
+            val reuseNotModifiedTabs = uiSettings.reuseNotModifiedTabs
+            thisLogger().debug("openFile $fileToOpen")
+            // Temporarily disable the reuse not modified tabs to force open in a new tab
+            if (newTab) uiSettings.reuseNotModifiedTabs = false
 
-              // Open the file in the current window or a new window
-              val openedFileEditor = manager.openFile(
-                file = fileToOpen,
-                window = curWindow,
-                options = FileEditorOpenOptions(requestFocus = true, reuseOpen = true)
-              )
-              // The window's editors
-              val fileEditors = openedFileEditor.allEditors
+            val request = FileEditorOpenRequest.withFocus(true)
+              .withReuseOpen(true)
+              .withOpenMode(FileEditorOpenMode.DEFAULT)
 
-              if (fileEditors.isEmpty()) {  // directory or some fail
-                Notifications.showWarning(message("unable.to.open.editor.for.file", fileToOpen.name))
-                thisLogger().debug("no editors opened")
-
-                resetSwitching()
-                return@executeCommand
+            // Open the file in the current window or the default one
+            val openFileFuture = try {
+              when {
+                curWindow != null -> manager.requestOpenFileInWindow(fileToOpen, curWindow, request)
+                else              -> manager.requestOpenFile(fileToOpen, request)
               }
+            } catch (e: Throwable) {
+              uiSettings.reuseNotModifiedTabs = reuseNotModifiedTabs
+              throw e
+            }
 
-              fileEditors.forEach { fileEditor -> thisLogger().debug("opened fileEditor = $fileEditor") }
+            openFileFuture.whenComplete { composite, error ->
+              runOnEdt {
+                try {
+                  if (error != null) {
+                    thisLogger().warn("Unable to open $fileToOpen", error)
+                  }
 
-              // Scroll to the line
-              scroll(line, *fileEditors.toTypedArray())
-
-              if (reuseNotModifiedTabs) return@executeCommand
-
-              // replace current tab
-              // PS: it seems to mess order of tabs less if we do it after opening a new tab
-              if (EditorGroupsSettings.instance.reuseCurrentTab && selectedFile != null && !newTab) {
-                thisLogger().debug("closeFile $selectedFile")
-                checkNotNull(currentWindow)
-                currentWindow.closeFile(selectedFile)
+                  onFileOpened(
+                    composite = composite,
+                    fileToOpen = fileToOpen,
+                    line = line,
+                    window = curWindow,
+                    selectedFile = selectedFile,
+                    newTab = newTab,
+                    reuseNotModifiedTabs = reuseNotModifiedTabs
+                  )
+                } finally {
+                  uiSettings.reuseNotModifiedTabs = reuseNotModifiedTabs
+                }
               }
-            } finally {
-              UISettings.getInstance().reuseNotModifiedTabs = reuseNotModifiedTabs
             }
           }
         }
       },
-      /* name = */
-      null,
-      /* groupId = */
-      null
+      /* name = */ null,
+      /* groupId = */ null
     )
 
     return resultAtomicReference.get()
   }
 
+  private fun runOnEdt(action: () -> Unit) {
+    ApplicationManager.getApplication().invokeLater(action)
+  }
+
   /**
-   * Scrolls the first text editor of the specified file editors to the given line.
+   * Continues the opening of a file in the current window once the editors
+   * are available: scrolls to the line and optionally replaces the
+   * previously selected tab.
+   */
+  @Suppress("LongParameterList")
+  private fun onFileOpened(
+    composite: FileEditorComposite?,
+    fileToOpen: VirtualFile,
+    line: Int?,
+    window: EditorWindow?,
+    selectedFile: VirtualFile?,
+    newTab: Boolean,
+    reuseNotModifiedTabs: Boolean
+  ) {
+    // The window's editors
+    val fileEditors = composite?.allEditors.orEmpty()
+
+    if (fileEditors.isEmpty()) {  // directory or some fail
+      Notifications.showWarning(message("unable.to.open.editor.for.file", fileToOpen.name))
+      thisLogger().debug("no editors opened")
+
+      resetSwitching()
+      return
+    }
+
+    fileEditors.forEach { fileEditor -> thisLogger().debug("opened fileEditor = $fileEditor") }
+
+    // Scroll to the line
+    scroll(line, *fileEditors.toTypedArray())
+
+    if (reuseNotModifiedTabs) return
+
+    // replace current tab
+    // PS: it seems to mess order of tabs less if we do it after opening a new tab
+    if (EditorGroupsSettings.instance.reuseCurrentTab && selectedFile != null && !newTab) {
+      thisLogger().debug("closeFile $selectedFile")
+      window?.closeFile(selectedFile)
+    }
+  }
+
+  /**
+   * Scrolls the first text editor of the specified file editors to the given
+   * line.
    *
-   * @param line The line number to scroll to. If null, the function returns false.
+   * @param line The line number to scroll to. If null, the function returns
+   *    false.
    * @param fileEditors The current window's file editors
-   * @return True if the scrolling was successful in any of the file editors, false otherwise.
+   * @return True if the scrolling was successful in any of the file editors,
+   *    false otherwise.
    */
   private fun scroll(line: Int?, vararg fileEditors: FileEditor): Boolean {
     if (line == null) return false
